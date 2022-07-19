@@ -16,7 +16,7 @@ class _BuildSliderState extends State<BuildSlider> {
   List<int> cardList = [1, 2, 3];
   List<String> imgSlider = [
     'assets/images/gedungsate.png',
-    'assets/images/geologi.png',
+    'assets/images/geologi.jpeg',
     'assets/images/braga.png',
   ];
   List<T> map<T>(List list, Function handler) {
@@ -29,51 +29,105 @@ class _BuildSliderState extends State<BuildSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CarouselSlider(
-            options: CarouselOptions(
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 5),
-                autoPlayAnimationDuration: Duration(milliseconds: 2000),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                pauseAutoPlayOnTouch: true,
-                enlargeCenterPage: true,
-                viewportFraction: 0.8,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                }),
-            items: imgSlider
-                .map((item) => Container(
-                      child: Center(
-                          child: Image.asset(
-                        item,
-                        // fit: BoxFit.cover,
-                        // height: height,
-                      )),
-                    ))
-                .toList(),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: map<Widget>(cardList, (index, url) {
-              return Container(
-                width: _currentIndex == index ? 30 : 10.0,
-                height: 10.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: _currentIndex == index
-                      ? Color.fromARGB(255, 159, 94, 238)
-                      : Color.fromARGB(255, 202, 111, 223).withOpacity(0.3),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Cabang Terpopuler",
+                  style: TextStyle(fontSize: 16),
                 ),
-              );
-            }),
+                Row(children: const [
+                  Text(
+                    "Temukan Kami",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  Icon(
+                    Icons.map_sharp,
+                    size: 35,
+                    color: Colors.grey,
+                  ),
+                ]),
+              ],
+            ),
           ),
+          Container(
+            height: 180,
+            width: double.infinity,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: imgSlider.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              imgSlider[index],
+                            ))),
+                    margin: EdgeInsets.only(right: 8),
+                    padding: EdgeInsets.all(8),
+                    width: 124,
+                    height: 180,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Gedung Bagus",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Jarak",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          )
+          // CarouselSlider(
+          //   options: CarouselOptions(
+          //       autoPlay: true,
+          //       autoPlayInterval: Duration(seconds: 5),
+          //       autoPlayAnimationDuration: Duration(milliseconds: 2000),
+          //       autoPlayCurve: Curves.fastOutSlowIn,
+          //       pauseAutoPlayOnTouch: true,
+          //       enlargeCenterPage: true,
+          //       viewportFraction: 0.8,
+          //       onPageChanged: (index, reason) {
+          //         setState(() {
+          //           _currentIndex = index;
+          //         });
+          //       }),
+          //   items: imgSlider
+          //       .map(
+          //         (item) => Card(
+          //           child: SizedBox(
+          //             width: 124,
+          //             height: 180,
+          //             child: Center(
+          //               child: Image.asset(
+          //                 item,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       )
+          //       .toList(),
+          // )
         ],
       ),
     );

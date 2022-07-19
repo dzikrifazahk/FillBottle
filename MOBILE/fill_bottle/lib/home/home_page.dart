@@ -110,7 +110,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
       body: _isSearching || _controller.text != ""
           ? SedangSearching(context)
           : TidakSearching(),
@@ -185,124 +184,88 @@ class _HomePageState extends State<HomePage> {
 
   TidakSearching() {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  left: 30,
+      child: Container(
+        padding: EdgeInsets.only(top: 55),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hello, Olivia",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 69, 71, 157),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          "Let's Travel",
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Color.fromARGB(255, 69, 71, 157),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Text(
-                  "Hallo, Olivia",
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: Color.fromARGB(255, 69, 71, 157),
-                      fontWeight: FontWeight.bold),
+                Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: new Icon(
+                    Icons.account_circle_rounded,
+                    size: 50,
+                    color: Color.fromARGB(255, 163, 165, 241),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 20, right: 40),
-                child: new Icon(
-                  Icons.account_circle_rounded,
-                  size: 50,
-                  color: Color.fromARGB(255, 163, 165, 241),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          BuildSlider(),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BuildButton(
-                title: "Temukan Yang Menarik",
-                icon: Icons.location_on,
-                press: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => TemukanPage()));
-                },
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              // BuildButton(
-              //   title: "Voucher",
-              //   icon: Icons.paid_sharp,
-              //   press: () {
-              //     Navigator.of(context).push(
-              //         MaterialPageRoute(builder: (context) => BookmarkPage()));
-              //   },
-              // )
-              BuildButton(
-                title: "Bookmark",
-                icon: Icons.paid_sharp,
-                press: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => BookmarkPage()));
-                },
-              )
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              for (int i = 0; i < kategorilist.length; i++)
-                WidgetByKategori(
-                    kategorilist[i].id, kategorilist[i].nama.toString(), i),
-            ],
-          ),
-        ],
+              ],
+            ),
+            SizedBox(height: 10),
+            BuildSearch(context),
+            SizedBox(height: 10),
+            BuildSlider(),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (int i = 0; i < kategorilist.length; i++)
+                  WidgetByKategori(
+                      kategorilist[i].id, kategorilist[i].nama.toString(), i),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Color.fromARGB(255, 163, 165, 241),
-      automaticallyImplyLeading: false,
-      title: GestureDetector(
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              if (icon.icon == Icons.search) {
-                icon = Icon(
-                  Icons.close,
-                  color: Color.fromARGB(255, 163, 165, 241),
-                );
-                _handleSearchStart();
-              } else {
-                _handleSearchEnd();
-              }
-            });
-          },
-          child: SizedBox(
-            height: 40,
-            child: TextField(
-              controller: _controller,
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              decoration: InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
-
-                suffixIcon: icon,
-                hintText: "Search ",
-                //hintStyle: TextStyle(color: Colors.white),
-              ),
-              onChanged: searchOperation,
-            ),
-          ),
-        ),
+  Widget BuildSearch(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(left: 15),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 163, 165, 241),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+            hintText: "Temukan kunjungan anda",
+            hintStyle: TextStyle(color: Colors.white),
+            border: InputBorder.none,
+            suffixIcon: Icon(
+              Icons.search,
+              color: Colors.white70,
+            )),
       ),
     );
   }
