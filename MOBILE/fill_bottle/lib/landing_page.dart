@@ -81,7 +81,7 @@ class _LandingPageState extends State<LandingPage> {
                 gap: 8,
                 activeColor: Colors.white,
                 iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 duration: Duration(milliseconds: 400),
                 tabBackgroundColor: Color.fromARGB(255, 163, 165, 241),
                 color: Colors.black, // navigation bar padding
@@ -91,20 +91,16 @@ class _LandingPageState extends State<LandingPage> {
                     text: 'Home',
                   ),
                   GButton(
-                    icon: Icons.bookmark_outline,
-                    text: 'Bookmark',
+                    icon: Icons.camera_alt_outlined,
+                    text: 'Scan Here',
                   ),
                   GButton(
                     icon: Icons.calendar_month_outlined,
-                    text: 'Event',
-                  ),
-                  GButton(
-                    icon: Icons.article_outlined,
-                    text: 'Booking',
+                    text: 'Transaksi',
                   ),
                   GButton(
                     icon: Icons.person,
-                    text: 'Profil',
+                    text: 'Profile',
                   ),
                 ]),
           ),

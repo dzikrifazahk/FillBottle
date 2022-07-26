@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, non_constant_identifier_names
 
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/bookmark_page.dart';
@@ -188,6 +189,7 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.only(top: 55),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Text(
-                          "Let's Travel",
+                          "Let's Fill",
                           style: TextStyle(
                               fontSize: 24,
                               color: Color.fromARGB(255, 69, 71, 157),
@@ -231,21 +233,38 @@ class _HomePageState extends State<HomePage> {
             BuildSearch(context),
             SizedBox(height: 10),
             BuildSlider(),
-            SizedBox(height: 20),
-            SizedBox(
-              height: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (int i = 0; i < kategorilist.length; i++)
-                  WidgetByKategori(
-                      kategorilist[i].id, kategorilist[i].nama.toString(), i),
-              ],
-            ),
+            SizedBox(height: 30),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text("All Product",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold))),
+            AllProduct(context), //
           ],
         ),
       ),
+    );
+  }
+
+  Widget AllProduct(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      height: MediaQuery.of(context).size.height,
+      width: double.infinity,
+      child: GridView.builder(
+          itemCount: 10,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10),
+          itemBuilder: (context, i) => Card(
+                child: Container(
+                  color: Colors.black,
+                ),
+              )),
     );
   }
 
