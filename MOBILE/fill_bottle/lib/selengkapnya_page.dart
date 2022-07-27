@@ -113,13 +113,12 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                               MaterialPageRoute<void>(
                                 builder: (context) => ProdukDetailPage(
                                   searchresult[i].id,
-                                  searchresult[i].judul,
+                                  searchresult[i].nama,
                                   searchresult[i].harga,
-                                  searchresult[i].hargax,
-                                  searchresult[i].thumbnail,
+                                  searchresult[i].foto,
                                   searchresult[i].deskripsi,
                                   false,
-                                  searchresult[i].satuan,
+                                  searchresult[i].deskripsi,
                                 ),
                               ),
                             );
@@ -128,13 +127,13 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Image.network(
-                                iUrl + "/" + searchresult[i].thumbnail,
+                                iUrl + "/" + searchresult[i].foto,
                                 fit: BoxFit.fill,
                               ),
                               Container(
                                   padding: EdgeInsets.only(top: 5, left: 5),
                                   alignment: Alignment.topLeft,
-                                  child: Text(searchresult[i].judul)),
+                                  child: Text(searchresult[i].nama)),
                               Container(
                                   padding: EdgeInsets.only(right: 5, bottom: 5),
                                   alignment: Alignment.bottomRight,
@@ -160,14 +159,13 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute<void>(
                                 builder: (context) => ProdukDetailPage(
-                                  snapshot.data[i].id,
-                                  snapshot.data[i].judul,
-                                  snapshot.data[i].harga,
-                                  snapshot.data[i].hargax,
-                                  snapshot.data[i].thumbnail,
-                                  snapshot.data[i].deskripsi,
+                                  searchresult[i].id,
+                                  searchresult[i].nama,
+                                  searchresult[i].harga,
+                                  searchresult[i].foto,
+                                  searchresult[i].deskripsi,
                                   false,
-                                  snapshot.data[i].satuan,
+                                  searchresult[i].deskripsi,
                                 ),
                               ),
                             );
@@ -176,13 +174,13 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Image.network(
-                                iUrl + "/" + snapshot.data[i].thumbnail,
+                                iUrl + "/" + snapshot.data[i].foto,
                                 fit: BoxFit.fill,
                               ),
                               Container(
                                   padding: EdgeInsets.only(top: 5, left: 5),
                                   alignment: Alignment.topLeft,
-                                  child: Text(snapshot.data[i].judul)),
+                                  child: Text(snapshot.data[i].nama)),
                               Container(
                                   padding: EdgeInsets.only(right: 5, bottom: 5),
                                   alignment: Alignment.bottomRight,
@@ -267,7 +265,7 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
     searchresult.clear();
     if (_isSearching != null) {
       for (var data in produkList) {
-        if (data.judul.toLowerCase().contains(searchText.toLowerCase())) {
+        if (data.nama.toLowerCase().contains(searchText.toLowerCase())) {
           searchresult.add(data);
         }
       }

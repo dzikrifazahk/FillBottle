@@ -143,13 +143,12 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute<void>(
                         builder: (context) => ProdukDetailPage(
                           searchresult[i].id,
-                          searchresult[i].judul,
+                          searchresult[i].nama,
                           searchresult[i].harga,
-                          searchresult[i].hargax,
-                          searchresult[i].thumbnail,
+                          searchresult[i].foto,
                           searchresult[i].deskripsi,
                           false,
-                          searchresult[i].satuan,
+                          searchresult[i].deskripsi,
                         ),
                       ),
                     );
@@ -158,13 +157,13 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.network(
-                        iUrl + "/" + searchresult[i].thumbnail,
+                        iUrl + "/" + searchresult[i].foto,
                         fit: BoxFit.fill,
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5, left: 5),
                           alignment: Alignment.topLeft,
-                          child: Text(searchresult[i].judul)),
+                          child: Text(searchresult[i].nama)),
                       Container(
                           padding: EdgeInsets.only(right: 5, bottom: 5),
                           alignment: Alignment.bottomRight,
@@ -236,7 +235,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 30),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text("All Product",
+                child: Text("Semua Produk",
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
@@ -310,7 +309,7 @@ class _HomePageState extends State<HomePage> {
     searchresult.clear();
     if (_isSearching != null) {
       for (var data in produkList) {
-        if (data.judul.toLowerCase().contains(searchText.toLowerCase())) {
+        if (data.nama.toLowerCase().contains(searchText.toLowerCase())) {
           searchresult.add(data);
         }
       }

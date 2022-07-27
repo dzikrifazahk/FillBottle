@@ -12,11 +12,11 @@ import 'package:sqflite/sqflite.dart';
 class ProdukDetailPage extends StatefulWidget {
   final Widget child;
   final int id;
-  final String judul, harga, hargax, thumbnail, deskripsi, satuan;
+  final String judul, harga, thumbnail, deskripsi, satuan;
   final bool valstok;
 
-  const ProdukDetailPage(this.id, this.judul, this.harga, this.hargax,
-      this.thumbnail, this.deskripsi, this.valstok, this.satuan,
+  const ProdukDetailPage(this.id, this.judul, this.harga, this.thumbnail,
+      this.deskripsi, this.valstok, this.satuan,
       {Key key, this.child})
       : super(key: key);
   @override
@@ -50,12 +50,11 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
     Database db = await dbHelper.database;
     var batch = db.batch();
     db.execute(
-        'insert into keranjang(idproduk,judul,harga,hargax,thumbnail,jumlah,userid,idcabang,satuan) values(?,?,?,?,?,?,?,?,?)',
+        'insert into keranjang(idproduk,judul,harga,thumbnail,jumlah,userid,idcabang,satuan) values(?,?,?,?,?,?,?,?,?)',
         [
           _keranjang.idproduk,
           _keranjang.judul,
           _keranjang.harga,
-          _keranjang.hargax,
           _keranjang.thumbnail,
           _keranjang.jumlah,
           _keranjang.userid,
@@ -203,7 +202,6 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
                 idproduk: widget.id,
                 judul: widget.judul,
                 harga: widget.harga,
-                hargax: widget.hargax,
                 thumbnail: widget.thumbnail,
                 jumlah: 1,
                 userid: userid,

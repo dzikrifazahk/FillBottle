@@ -127,13 +127,12 @@ class _WidgetByKategoriState extends State<WidgetByKategori> {
                                 MaterialPageRoute<void>(
                                   builder: (context) => ProdukDetailPage(
                                     snapshot.data[i].id,
-                                    snapshot.data[i].judul,
+                                    snapshot.data[i].nama,
                                     snapshot.data[i].harga,
-                                    snapshot.data[i].hargax,
-                                    snapshot.data[i].thumbnail,
+                                    snapshot.data[i].foto,
                                     snapshot.data[i].deskripsi,
                                     false,
-                                    snapshot.data[i].satuan,
+                                    snapshot.data[i].deskripsi,
                                   ),
                                 ),
                               );
@@ -148,14 +147,14 @@ class _WidgetByKategoriState extends State<WidgetByKategori> {
                                     height: 110,
                                     width: 170,
                                     child: Image.network(
-                                      iUrl + "/" + snapshot.data[i].thumbnail,
+                                      iUrl + "/" + snapshot.data[i].foto,
                                       fit: BoxFit.fill,
                                     ),
                                   ),
                                   Container(
                                       padding: EdgeInsets.only(left: 10),
                                       alignment: Alignment.topLeft,
-                                      child: Text(snapshot.data[i].judul)),
+                                      child: Text(snapshot.data[i].nama)),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         bottom: 8, right: 20),
@@ -166,7 +165,7 @@ class _WidgetByKategoriState extends State<WidgetByKategori> {
                                           snapshot.data[i].harga,
                                           style: TextStyle(color: Colors.red),
                                         ),
-                                        Text(" /" + snapshot.data[i].satuan),
+                                        Text(" /" + snapshot.data[i].deskripsi),
                                       ],
                                     ),
                                   ),
