@@ -63,7 +63,7 @@ class _TransaksiPageState extends State<TransaksiPage>
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
-              height: MediaQuery.of(context).size.height,
+              height: 100,
               child: GridView.builder(
                 itemCount: 2,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -92,8 +92,8 @@ class _TransaksiPageState extends State<TransaksiPage>
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Color.fromRGBO(206, 201, 242, 100),
-                              Color.fromRGBO(156, 159, 240, 100),
+                              Color.fromRGBO(206, 201, 242, 1),
+                              Color.fromRGBO(156, 159, 240, 1),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(100)),
@@ -108,11 +108,55 @@ class _TransaksiPageState extends State<TransaksiPage>
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              // color: Colors.grey,
               child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (context, item) => Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SizedBox(
+                        height: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                          "assets/images/braga.png"))),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text("Rinso " + item.toString() + "L",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                  Text("Sabun", style: TextStyle(fontSize: 14)),
+                                  Text("Rp. 10.000",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(68, 72, 174, 1))),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
