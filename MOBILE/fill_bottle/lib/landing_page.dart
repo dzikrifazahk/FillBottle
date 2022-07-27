@@ -25,7 +25,6 @@ class _LandingPageState extends State<LandingPage> {
   final List<Widget> _container = [
     HomePage(),
     BookmarkPage(),
-    EventPage(),
     TransaksiPage(),
     ProfilPage(),
   ];
@@ -41,8 +40,6 @@ class _LandingPageState extends State<LandingPage> {
       _bottomNavCurrentIndex = 2;
     } else if (widget.nav == '3') {
       _bottomNavCurrentIndex = 3;
-    } else if (widget.nav == '4') {
-      _bottomNavCurrentIndex = 4;
     }
   }
 

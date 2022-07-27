@@ -24,29 +24,102 @@ class _TransaksiPageState extends State<TransaksiPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Transaksi"),
-        backgroundColor: Color.fromARGB(255, 163, 165, 241),
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Color.fromARGB(255, 242, 238, 238),
-          labelPadding: EdgeInsets.all(0),
-          tabs: [
-            Tab(text: "KERANJANG"),
-            Tab(text: "STATUS"),
+        body: SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.only(top: 55),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Keranjang",
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Color.fromARGB(255, 69, 71, 157),
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: new Icon(
+                    Icons.search,
+                    size: 34,
+                    color: Color.fromARGB(255, 69, 71, 157),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+              child: GridView.builder(
+                itemCount: 2,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 1,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 0),
+                itemBuilder: (context, i) => Card(
+                  elevation: 0,
+                  child: InkWell(
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            i == 0 ? "Keranjang" : "Status",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromRGBO(206, 201, 242, 100),
+                              Color.fromRGBO(156, 159, 240, 100),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(100)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, item) => Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
-      body: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _tabController,
-        children: [
-          KeranjangPage(),
-          StatusPage(),
-        ],
-      ),
-    );
+    ));
   }
 }
