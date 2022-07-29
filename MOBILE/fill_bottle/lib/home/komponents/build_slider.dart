@@ -97,39 +97,10 @@ class _BuildSliderState extends State<BuildSlider> {
                     ),
                   );
                 }),
-          )
-          // CarouselSlider(
-          //   options: CarouselOptions(
-          //       autoPlay: true,
-          //       autoPlayInterval: Duration(seconds: 5),
-          //       autoPlayAnimationDuration: Duration(milliseconds: 2000),
-          //       autoPlayCurve: Curves.fastOutSlowIn,
-          //       pauseAutoPlayOnTouch: true,
-          //       enlargeCenterPage: true,
-          //       viewportFraction: 0.8,
-          //       onPageChanged: (index, reason) {
-          //         setState(() {
-          //           _currentIndex = index;
-          //         });
-          //       }),
-          //   items: imgSlider
-          //       .map(
-          //         (item) => Card(
-          //           child: SizedBox(
-          //             width: 124,
-          //             height: 180,
-          //             child: Center(
-          //               child: Image.asset(
-          //                 item,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //       )
-          //       .toList(),
-          // )
+          ),
         ],
       ),
+      
     );
   }
 }

@@ -51,6 +51,7 @@ dependencies:
   flutter_onboard: ^2.0.0
   fsearch: ^2.0.0
   banner_listtile: ^2.2.0
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:

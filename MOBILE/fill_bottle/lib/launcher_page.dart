@@ -51,7 +51,7 @@ class _LauncherPageState extends State<LauncherPage> {
           children: [
             Center(
               child: Image.asset(
-                'assets/images/sahabitLauncher.png',
+                'assets/images/FillBottleLauncher.png',
                 width: 300,
                 height: 300,
               ),

@@ -4,10 +4,11 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:fill_bottle/bookmark_page.dart';
+import 'package:fill_bottle/scanner_page.dart';
 import 'package:fill_bottle/detail/produkdetailpage.dart';
 import 'package:fill_bottle/home/komponents/build_button.dart';
 import 'package:fill_bottle/home/komponents/build_slider.dart';
+import 'package:fill_bottle/home/komponents/carousel_slider.dart';
 import 'package:fill_bottle/home/komponents/widget_by_kategori.dart';
 import 'package:fill_bottle/konstant.dart';
 import 'package:fill_bottle/maps_page.dart';
@@ -15,7 +16,7 @@ import 'package:fill_bottle/model/kategori.dart';
 import 'package:http/http.dart' as http;
 import 'package:fill_bottle/model/produk.dart';
 import 'package:fill_bottle/temukan_page.dart';
-import 'package:fill_bottle/bookmark_page.dart';
+import 'package:fill_bottle/scanner_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -27,16 +28,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Kategori> kategorilist = [];
   List<Produk> produkList = [];
-  String iUrl = Uri.http(sUrl, "/CodeIgniter3").toString();
 
-  Future<List<Produk>> fetchProduk(
-      String idkategori, String idsubkategori) async {
+  Future<List<Produk>> fetchProduk() async {
     List<Produk> usersList;
-    var params = "/CodeIgniter3/produkbykategori";
-    var url = Uri.http(sUrl, params,
-        {"idkategori": idkategori, "idsubkategori": idsubkategori});
+    var params = "/api/product";
+    var url = Uri.http(sUrl, params);
     try {
       var response = await http.get(url);
+      // print(json.decode(response.body));
       if (response.statusCode == 200) {
         final items = json.decode(response.body).cast<Map<String, dynamic>>();
         usersList = items.map<Produk>((json) {
@@ -50,6 +49,7 @@ class _HomePageState extends State<HomePage> {
       usersList = produkList;
     }
     return usersList;
+    print(usersList);
   }
 
   Icon icon = Icon(
@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    fetchProduk();
     _isSearching = false;
     fetchKategori();
   }
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refresh() {
-    return fetchProduk("", "").then((_kategori) {});
+    return fetchProduk().then((_kategori) {});
   }
 
   @override
@@ -124,7 +125,7 @@ class _HomePageState extends State<HomePage> {
         height: MediaQuery.of(context).size.height,
         margin: EdgeInsets.only(bottom: 7),
         child: FutureBuilder<List<Produk>>(
-          future: fetchProduk("", ""),
+          future: fetchProduk(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
@@ -156,10 +157,10 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.network(
-                        iUrl + "/" + searchresult[i].foto,
-                        fit: BoxFit.fill,
-                      ),
+                      // Image.network(
+                      //   // iUrl + "/" + searchresult[i].foto,
+                      //   fit: BoxFit.fill,
+                      // ),
                       Container(
                           padding: EdgeInsets.only(top: 5, left: 5),
                           alignment: Alignment.topLeft,
@@ -231,6 +232,8 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 10),
             BuildSearch(context),
             SizedBox(height: 10),
+            CarouselSliderPage(),
+            SizedBox(height: 10),
             BuildSlider(),
             SizedBox(height: 30),
             Padding(
@@ -248,22 +251,46 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget AllProduct(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      height: MediaQuery.of(context).size.height,
-      width: double.infinity,
-      child: GridView.builder(
-          itemCount: 10,
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        height: MediaQuery.of(context).size.height,
+        width: double.infinity,
+        child: GridView.builder(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
               childAspectRatio: 3 / 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10),
           itemBuilder: (context, i) => Card(
-                child: Container(
-                  color: Colors.black,
-                ),
-              )),
+            child: Container(
+              // color: Colors.black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: Image(
+                      image: NetworkImage('https://fillbottle.nataysa.com/storage'+ '/' +
+                          produkList[i].foto),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      produkList[i].nama ?? "No Title",
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          itemCount: produkList.length,
+        ),
+      ),
     );
   }
 

@@ -1,16 +1,16 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
+import 'package:fill_bottle/guide/make_event.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:fill_bottle/bookmark_page.dart';
+import 'package:fill_bottle/scanner_page.dart';
 import 'package:fill_bottle/home/home_page.dart';
 import 'package:fill_bottle/maps_page.dart';
 import 'package:fill_bottle/profil/profil_page.dart';
 import 'package:fill_bottle/transaksi/pembayaran/list_pembayaran.dart';
 import 'package:fill_bottle/transaksi/status_page.dart';
 import 'package:fill_bottle/transaksi/transaksi_page.dart';
-import 'bookmark_page.dart';
-import 'event_page.dart';
+import 'scanner_page.dart';
 
 class LandingPage extends StatefulWidget {
   final String nav;
@@ -24,7 +24,7 @@ class _LandingPageState extends State<LandingPage> {
   int _bottomNavCurrentIndex = 0;
   final List<Widget> _container = [
     HomePage(),
-    BookmarkPage(),
+    ScannerPage(),
     TransaksiPage(),
     ProfilPage(),
   ];
@@ -40,7 +40,7 @@ class _LandingPageState extends State<LandingPage> {
       _bottomNavCurrentIndex = 2;
     } else if (widget.nav == '3') {
       _bottomNavCurrentIndex = 3;
-    }
+    } 
   }
 
   @override
@@ -77,7 +77,7 @@ class _LandingPageState extends State<LandingPage> {
                 hoverColor: Colors.grey[100],
                 gap: 8,
                 activeColor: Colors.white,
-                iconSize: 24,
+                iconSize: 20,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 duration: Duration(milliseconds: 400),
                 tabBackgroundColor: Color.fromARGB(255, 163, 165, 241),
