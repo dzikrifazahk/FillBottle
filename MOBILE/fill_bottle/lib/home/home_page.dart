@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _controller = TextEditingController();
   bool _isSearching = false;
   bool _showBackToTopButton = false;
+  bool _isSearchingAppBar = false;
   List<Produk> searchresult = [];
   ScrollController _scrollController = ScrollController();
 
@@ -150,6 +151,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _isSearchingAppBar || _controller.text != ""
+          ? BuildAppBar(context)
+          : null,
       body: _isSearching || _controller.text != ""
           ? SedangSearching(context)
           : TidakSearching(),
@@ -202,10 +206,11 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Image.network(
-                      //   // iUrl + "/" + searchresult[i].foto,
-                      //   fit: BoxFit.fill,
-                      // ),
+                      Image.network(
+                        'https://fillbottle.nataysa.com/storage' +
+                            "/" +
+                            searchresult[i].foto,
+                      ),
                       Container(
                           padding: EdgeInsets.only(top: 5, left: 5),
                           alignment: Alignment.topLeft,
@@ -375,15 +380,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget BuildSearch(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-        padding: EdgeInsets.only(left: 15),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 163, 165, 241),
-          borderRadius: BorderRadius.circular(8),
-        ),
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(left: 15),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 163, 165, 241),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: InkWell(
         child: TextField(
+          controller: _controller,
           decoration: InputDecoration(
               hintText: "Temukan kunjungan anda",
               hintStyle: TextStyle(color: Colors.white),
@@ -392,6 +398,47 @@ class _HomePageState extends State<HomePage> {
                 Icons.search,
                 color: Colors.white70,
               )),
+        ),
+      ),
+    );
+  }
+
+  Widget BuildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Color.fromARGB(255, 159, 94, 238),
+      title: GestureDetector(
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              if (icon.icon == Icons.search) {
+                icon = Icon(
+                  Icons.close,
+                  color: Colors.blue,
+                );
+                _handleSearchStart();
+              } else {
+                _handleSearchEnd();
+              }
+            });
+          },
+          child: SizedBox(
+            height: 40,
+            child: TextField(
+              controller: _controller,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+
+                suffixIcon: icon,
+                hintText: "Search ",
+                //hintStyle: TextStyle(color: Colors.white),
+              ),
+              onChanged: searchOperation,
+            ),
+          ),
         ),
       ),
     );

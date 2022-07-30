@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       // reverse: true,
       child: Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -121,10 +121,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 150, bottom: 15, left: 20),
+                padding: const EdgeInsets.only(top: 70, bottom: 15, left: 20),
                 child: Text(
                   "Login to your",
                   style: TextStyle(
@@ -327,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    // SizedBox(height: 10),
+                    SizedBox(height: 40),
                   ],
                 ),
               ),
