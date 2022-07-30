@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/intropage': (context) => IntroPage(),
         '/landingusers': (context) => LandingPage(),
-        '/keranjangusers': (context) => LandingPage(nav: '1'),
+        '/keranjangusers': (context) => LandingPage(nav: '2'),
         // '/signup': (context) => SignupPage(),
         // '/forgot': (context) => Forgotpage(),
       },

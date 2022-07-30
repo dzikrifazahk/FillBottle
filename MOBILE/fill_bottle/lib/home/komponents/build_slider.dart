@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fill_bottle/temukan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/home/komponents/item_card.dart';
 
@@ -35,25 +36,51 @@ class _BuildSliderState extends State<BuildSlider> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Cabang Terpopuler",
-                  style: TextStyle(fontSize: 16),
-                ),
-                Row(children: const [
+            child: SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                   Text(
-                    "Temukan Kami",
+                    "Cabang Terpopuler",
                     style: TextStyle(fontSize: 16),
                   ),
-                  Icon(
-                    Icons.map_sharp,
-                    size: 35,
-                    color: Colors.grey,
-                  ),
-                ]),
-              ],
+                  Row(children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute<void>(
+                              builder: (context) => TemukanPage()));
+                        },
+                        
+                        icon: SizedBox(
+                          width: 300,
+                          child: Row(
+                            children: [
+                              Text('Temukan Kami'),
+                              Icon(Icons.map_sharp),
+                            ],
+                          ),
+                        ),
+                        
+                        // InkWell(
+                        //   onTap: () {
+            
+                        //   },
+                        //   child: IconButton(
+                        //   "Temukan Kami",
+                        //   style: TextStyle(fontSize: 16),
+                        // ),
+                        // Icon(
+                        //   Icons.map_sharp,
+                        //   size: 35,
+                        //   color: Colors.grey,
+                        // ),,
+                        // )
+                        )
+                  ]),
+                ],
+              ),
             ),
           ),
           Container(
@@ -100,7 +127,6 @@ class _BuildSliderState extends State<BuildSlider> {
           ),
         ],
       ),
-      
     );
   }
 }

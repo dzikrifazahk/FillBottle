@@ -35,7 +35,7 @@ class _LoginProfileState extends State<LoginProfile> {
           ImageWithIcon(),
           SizedBox(height: 15),
           Text(
-            "Hi, " + widget.nama + " (" + widget.level + ")",
+            "Hi, " + widget.nama,
             style: TextStyle(fontSize: 20, color: Colors.blue),
           ),
           SizedBox(height: 15),

@@ -52,38 +52,39 @@ class _LoginPageState extends State<LoginPage> {
 
   _login() async {
     final prefs = await SharedPreferences.getInstance();
-    var params = "/CodeIgniter3/login";
+    var params = "/api/login";
     var url =
-        Uri.http(sUrl, params, {"username": user.text, "password": pass.text});
-    var res = await http.get(url);
+        Uri.http(sUrl, params, {"email": user.text, "password": pass.text});
+    var res = await http.post(url);
     if (res.statusCode == 200) {
       print(url);
       var response = json.decode(res.body);
-      if (response['response_status'] == 'OK' &&
-          response['data'][0]['level'] == 'Guide') {
+      print(response);
+      if (response[0]['level'] == '2') {
         prefs.setBool('login', true);
-        prefs.setString('username', response['data'][0]['username']);
-        prefs.setString('nama', response['data'][0]['nama']);
-        prefs.setString('level', response['data'][0]['level']);
+        prefs.setInt('id', response[0]['id']);
+        prefs.setString('email', response[0]['email']);
+        prefs.setString('name', response[0]['name']);
+        prefs.setString('level', response[0]['level']);
         if (widget.nav == "") {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         } else {
-          _updateKeranjang(response['data'][0]['username']);
+          _updateKeranjang(response[0]['email']);
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/keranjangusers', (route) => false);
         }
-      } else if (response['response_status'] == 'OK' &&
-          response['data'][0]['level'] == 'User') {
+      } else if (response[0]['level'] == '3') {
         prefs.setBool('login', true);
-        prefs.setString('username', response['data'][0]['username']);
-        prefs.setString('nama', response['data'][0]['nama']);
-        prefs.setString('level', response['data'][0]['level']);
+        prefs.setInt('id', response[0]['id']);
+        prefs.setString('email', response[0]['email']);
+        prefs.setString('name', response[0]['name']);
+        prefs.setString('level', response[0]['level']);
         if (widget.nav == "") {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/intropage', (route) => false);
         } else {
-          _updateKeranjang(response['data'][0]['username']);
+          _updateKeranjang(response[0]['email']);
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/intropage', (route) => false);
         }
@@ -166,8 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                             width: 2,
                           )),
                           focusColor: Color.fromARGB(255, 63, 59, 59),
-                          hintText: "08xxxxxxxxxxxx",
-                          labelText: 'Telp',
+                          hintText: "Email",
+                          labelText: 'Email',
                           labelStyle: TextStyle(
                             color: Color.fromARGB(255, 74, 71, 71),
                           ),
@@ -176,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         validator: (text) {
                           if (text == null || text.isEmpty) {
-                            return 'Telp cannot be empty';
+                            return 'Email cannot be empty';
                           }
                         },
                       ),

@@ -11,14 +11,20 @@ import 'package:sqflite/sqflite.dart';
 
 class ProdukDetailPage extends StatefulWidget {
   final Widget child;
-  final int id;
-  final String judul, harga, thumbnail, deskripsi, satuan;
-  final bool valstok;
+  final int id, harga, jumlah, userid;
+  final String nama, deskripsi, foto;
 
-  const ProdukDetailPage(this.id, this.judul, this.harga, this.thumbnail,
-      this.deskripsi, this.valstok, this.satuan,
-      {Key key, this.child})
-      : super(key: key);
+  const ProdukDetailPage({
+    Key key,
+    this.child,
+    this.userid,
+    this.id,
+    this.nama,
+    this.harga,
+    this.foto,
+    this.deskripsi,
+    this.jumlah,
+  }) : super(key: key);
   @override
   State<ProdukDetailPage> createState() => _ProdukDetailPageState();
 }
@@ -26,11 +32,11 @@ class ProdukDetailPage extends StatefulWidget {
 class _ProdukDetailPageState extends State<ProdukDetailPage> {
   // List<Cabang> cabangList = [];
   // String _valcabang;
-  bool instok = false;
-  String iUrl = Uri.http(sUrl, "/CodeIgniter3").toString();
+  // bool instok = false;
+  String iUrl = Uri.http(sUrl, "/api/product").toString();
   String userid = "";
   DbHelper dbHelper = DbHelper();
-  bool fav = false;
+  // bool fav = false;
 
   @override
   void initState() {
@@ -50,16 +56,16 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
     Database db = await dbHelper.database;
     var batch = db.batch();
     db.execute(
-        'insert into keranjang(idproduk,judul,harga,thumbnail,jumlah,userid,idcabang,satuan) values(?,?,?,?,?,?,?,?,?)',
+        'insert into keranjang(userid, idproduk,kode,nama,deskripsi,harga,foto,jumlah) values(?,?,?,?,?,?,?,?)',
         [
-          _keranjang.idproduk,
-          _keranjang.judul,
-          _keranjang.harga,
-          _keranjang.thumbnail,
-          _keranjang.jumlah,
           _keranjang.userid,
-          _keranjang.idcabang,
-          _keranjang.satuan
+          _keranjang.idproduk,
+          _keranjang.kode,
+          _keranjang.nama,
+          _keranjang.deskripsi,
+          _keranjang.harga,
+          _keranjang.foto,
+          _keranjang.jumlah,
         ]);
     await batch.commit();
     Navigator.of(context)
@@ -141,15 +147,16 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Body(
-                  judul: widget.judul,
+                  judul: widget.nama,
                   deskripsi: widget.deskripsi,
-                  harga: widget.harga,
-                  url: iUrl + "/" + widget.thumbnail,
-                  fav: fav,
+                  harga: widget.harga.toString(),
+                  url: 'https://fillbottle.nataysa.com/storage' +
+                      "/" +
+                      widget.foto,
                   press: () {
                     //klikFavorite(widget.id.toString(), userid);
                   },
-                  satuan: widget.satuan,
+                  // satuan: widget.satuan,
                 ),
                 // Container(
                 //   margin: EdgeInsets.all(10),
@@ -199,18 +206,18 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
         pressB: () {
           if (true == true) {
             Keranjang _keranjangku = Keranjang(
-                idproduk: widget.id,
-                judul: widget.judul,
-                harga: widget.harga,
-                thumbnail: widget.thumbnail,
-                jumlah: 1,
-                userid: userid,
-                idcabang: "1",
-                satuan: "Liter");
+              idproduk: widget.id,
+              nama: widget.nama,
+              harga: widget.harga,
+              foto: widget.foto,
+              jumlah: 1,
+              userid: widget.userid,
+              // satuan: "Liter"
+            );
             saveKeranjang(_keranjangku);
           }
         },
-        instok: true,
+        // instok: true,
       ),
     );
   }

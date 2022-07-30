@@ -6,7 +6,6 @@ import 'package:fill_bottle/landing_page.dart';
 import 'package:fill_bottle/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:fill_bottle/profil/profil_page.dart';
-
 import 'profil/komponents/image_with_icon.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -28,13 +27,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
 
   _createAccount() async {
-    String params = '/CodeIgniter3/register';
+    String params = '/api/customer';
     var url = Uri.http(sUrl, params);
-    Map<String, String> body = {
-      "userid": user.text,
-      "telp": telp.text,
-      "pass": pass.text
-    };
+    Map<String, String> body = {"email": telp.text, "pass": pass.text};
     try {
       final response = await http.post(
         url,
@@ -109,7 +104,8 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ImageWithIcon(),
+                  // ImageWithIcon(),
+                  Image.asset('assets/images/FillBottleLauncher.png'),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Padding(
@@ -160,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   controller: telp,
                                   validator: (text) {
                                     if (text == null || text.isEmpty) {
-                                      return 'telphone cannot be empty';
+                                      return 'Nomor Telpon Tidak Boleh Kosong';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -193,9 +189,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                   controller: pass,
                                   validator: (text) {
                                     if (text == null || text.isEmpty) {
-                                      return 'password cannot be empty';
+                                      return 'Password Tidak Boleh Kosong';
                                     } else if (text.length < 8) {
-                                      return "Enter valid password of more then 8 characters!";
+                                      return "Password harus lebih 8 characters!";
                                     }
                                   },
                                   obscureText: _isObpass,

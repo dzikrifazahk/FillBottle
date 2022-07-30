@@ -126,13 +126,13 @@ class _WidgetByKategoriState extends State<WidgetByKategori> {
                               Navigator.of(context).push(
                                 MaterialPageRoute<void>(
                                   builder: (context) => ProdukDetailPage(
-                                    snapshot.data[i].id,
-                                    snapshot.data[i].nama,
-                                    snapshot.data[i].harga,
-                                    snapshot.data[i].foto,
-                                    snapshot.data[i].deskripsi,
-                                    false,
-                                    snapshot.data[i].deskripsi,
+                                    id: snapshot.data[i].id,
+                                    nama: snapshot.data[i].nama,
+                                    harga: int.parse(snapshot.data[i].harga),
+                                    foto: snapshot.data[i].foto,
+                                    deskripsi: snapshot.data[i].deskripsi,
+                                    // false,
+                                    // snapshot.data[i].deskripsi,
                                   ),
                                 ),
                               );

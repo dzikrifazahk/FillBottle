@@ -26,7 +26,7 @@ class _StatusPageState extends State<StatusPage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       login = prefs.getBool('login') ?? false;
-      userid = prefs.getString('username') ?? "";
+      userid = prefs.getInt('id').toString() ?? "";
     });
   }
 

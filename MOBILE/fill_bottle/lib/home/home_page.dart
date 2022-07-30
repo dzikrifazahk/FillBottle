@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'dart:ui';
-
+import 'package:fill_bottle/model/keranjang.dart';
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/scanner_page.dart';
 import 'package:fill_bottle/detail/produkdetailpage.dart';
@@ -14,12 +14,14 @@ import 'package:fill_bottle/konstant.dart';
 import 'package:fill_bottle/maps_page.dart';
 import 'package:fill_bottle/model/kategori.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fill_bottle/model/produk.dart';
 import 'package:fill_bottle/temukan_page.dart';
 import 'package:fill_bottle/scanner_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  final String nama;
+  const HomePage({Key key, this.nama}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -28,6 +30,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Kategori> kategorilist = [];
   List<Produk> produkList = [];
+  bool login = false;
+  String userid;
+  String nama;
+  String level;
+  cekLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      login = prefs.getBool('login') ?? false;
+      userid = prefs.getString('email') ?? "";
+      nama = prefs.getString('name') ?? "";
+      level = prefs.getString('level') ?? "";
+    });
+  }
 
   Future<List<Produk>> fetchProduk() async {
     List<Produk> usersList;
@@ -49,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       usersList = produkList;
     }
     return usersList;
-    print(usersList);
+    // print(usersList);
   }
 
   Icon icon = Icon(
@@ -76,12 +91,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<String> getName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('name');
+  }
+
   @override
   void initState() {
     super.initState();
     fetchProduk();
     _isSearching = false;
     fetchKategori();
+    cekLogin();
   }
 
   Future<List<Kategori>> fetchKategori() async {
@@ -143,13 +164,13 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (context) => ProdukDetailPage(
-                          searchresult[i].id,
-                          searchresult[i].nama,
-                          searchresult[i].harga,
-                          searchresult[i].foto,
-                          searchresult[i].deskripsi,
-                          false,
-                          searchresult[i].deskripsi,
+                          id: searchresult[i].id,
+                          nama: searchresult[i].nama,
+                          foto: searchresult[i].foto,
+                          harga: int.parse(searchresult[i].harga),
+                          deskripsi: searchresult[i].deskripsi,
+                          // false,
+                          // searchresult[i].deskripsi,
                         ),
                       ),
                     );
@@ -199,13 +220,14 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Hello, Olivia",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 69, 71, 157),
-                            fontWeight: FontWeight.bold),
-                      ),
+                      FutureBuilder (future: getName(),builder: (context, AsyncSnapshot snapshot) {
+                        return Text('Hello, ${snapshot.data ?? ""}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Color.fromARGB(255, 69, 71, 157),
+                              fontWeight: FontWeight.bold),
+                        );
+                      }),
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Text(
@@ -243,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.bold))),
-            AllProduct(context), //
+            AllProduct(context),
           ],
         ),
       ),
@@ -251,45 +273,57 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget AllProduct(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 3 / 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10),
-          itemBuilder: (context, i) => Card(
-            child: Container(
-              // color: Colors.black,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Expanded(
-                    child: Image(
-                      image: NetworkImage('https://fillbottle.nataysa.com/storage'+ '/' +
-                          produkList[i].foto),
-                      fit: BoxFit.cover,
-                    ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      height: MediaQuery.of(context).size.height,
+      width: double.infinity,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            childAspectRatio: 3 / 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10),
+        itemBuilder: (context, i) => Card(
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProdukDetailPage(
+                          id: produkList[i].id,
+                          nama: produkList[i].nama,
+                          harga: int.parse(produkList[i].harga),
+                          foto: produkList[i].foto,
+                          deskripsi: produkList[i].deskripsi,
+                        )),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 10),
+                Expanded(
+                  child: Image(
+                    image: NetworkImage(
+                        'https://fillbottle.nataysa.com/storage' +
+                            '/' +
+                            produkList[i].foto),
+                    fit: BoxFit.cover,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      produkList[i].nama ?? "No Title",
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    produkList[i].nama ?? "No Title",
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          itemCount: produkList.length,
         ),
+        itemCount: produkList.length,
       ),
     );
   }

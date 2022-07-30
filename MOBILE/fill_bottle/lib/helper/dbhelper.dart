@@ -16,7 +16,7 @@ class DbHelper {
 
   Future<Database> initDb() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + 'kutikin.db';
+    String path = directory.path + 'laravel.db';
 
     var todoDatabase = openDatabase(path, version: 1, onCreate: _createDb);
     return todoDatabase;
@@ -27,14 +27,15 @@ class DbHelper {
       CREATE TABLE keranjang(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         idproduk INTEGER,
-        judul TEXT,
-        harga TEXT,
-        hargax TEXT,
-        thumbnail TEXT,
-        jumlah INTEGER,
-        userid TEXT,
-        idcabang TEXT,
-        satuan TEXT
+        partnerId INTEGER,
+        userid INTEGER,
+        kode INTEGER,
+        nama TEXT,
+        deskripsi TEXT, 
+        harga INTEGER,
+        foto TEXT,
+        partner TEXT,
+        jumlah INTEGER
       );
     ''');
   }

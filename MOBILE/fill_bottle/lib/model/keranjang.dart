@@ -1,82 +1,92 @@
+import 'dart:ffi';
+
 class Keranjang {
   final int id;
+  final int partnerId;
+  final String kode;
+  final String nama;
+  final String deskripsi;
+  final int harga;
+  final String foto;
+  final String partner;
   final int idproduk;
-  final String judul;
-  final String harga;
-  final String hargax;
-  final String thumbnail;
   final int jumlah;
-  final String userid;
-  final String idcabang;
-  final String satuan;
+  final int userid;
 
-  Keranjang(
-      {this.id,
-      this.idproduk,
-      this.judul,
-      this.harga,
-      this.hargax,
-      this.thumbnail,
-      this.jumlah,
-      this.userid,
-      this.idcabang,
-      this.satuan});
+  Keranjang({
+    this.id,
+    this.partnerId,
+    this.kode,
+    this.nama,
+    this.deskripsi,
+    this.harga,
+    this.foto,
+    this.partner,
+    this.idproduk,
+    this.jumlah,
+    this.userid,
+  });
 
   factory Keranjang.fromJson(Map<String, dynamic> json) {
     return Keranjang(
       id: json['id'] as int,
+      partnerId: json['partnerId'] as int,
+      kode: json['kode'] as String,
+      nama: json['harga'] as String,
+      deskripsi: json['deskripsi'] as String,
+      harga: json['harga'] as int,
+      foto: json['foto'] as String,
+      partner: json['partner'] as String,
       idproduk: json['idproduk'] as int,
-      judul: json['judul'] as String,
-      harga: json['harga'] as String,
-      hargax: json['hargax'] as String,
-      thumbnail: json['thumbnail'] as String,
       jumlah: json['jumlah'] as int,
-      userid: json['userid'] as String,
-      idcabang: json['idcabang'] as String,
-      satuan: json['satuan'] as String,
+      userid: json['userid'] as int
     );
   }
 
   factory Keranjang.fromMap(Map<String, dynamic> map) {
     return Keranjang(
       id: map['id'] as int,
+      partnerId: map['partnerId'] as int,
+      kode: map['kode'] as String,
+      nama: map['harga'] as String,
+      deskripsi: map['deskripsi'] as String,
+      harga: map['harga'] as int,
+      foto: map['foto'] as String,
+      partner: map['partner'] as String,
       idproduk: map['idproduk'] as int,
-      judul: map['judul'] as String,
-      harga: map['harga'] as String,
-      hargax: map['hargax'] as String,
-      thumbnail: map['thumbnail'] as String,
       jumlah: map['jumlah'] as int,
-      userid: map['userid'] as String,
-      idcabang: map['idcabang'] as String,
-      satuan: map['satuan'] as String,
+      userid: map['userid'] as int,
     );
   }
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
     map['id'] = id;
-    map['idproduk'] = id;
-    map['judul'] = judul;
+    map['partnerId'] = partnerId;
+    map['kode'] = kode;
     map['harga'] = harga;
-    map['hargax'] = hargax;
-    map['thumbnail'] = thumbnail;
+    map['deskripsi'] = deskripsi;
+    map['harga'] = harga;
+    map['foto'] = foto;
+    map['partner'] = partner;
+    map['idproduk'] = idproduk;
     map['jumlah'] = jumlah;
-    map['userid'] = userid;
-    map['idcabang'] = idcabang;
-    map['satuan'] = satuan;
+    map['jumlah'] = userid;
     return map;
   }
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "idproduk": idproduk,
-        "judul": judul,
+        "partnerId": partnerId,
+        "kode": kode,
         "harga": harga,
-        "hargax": hargax,
-        "thumbnail": thumbnail,
+        "nama": nama,
+        "deskripsi": deskripsi,
+        "harga": harga,
+        "foto": foto,
+        "partner": partner,
+        "idproduk": idproduk,
         "jumlah": jumlah,
         "userid": userid,
-        "idcabang": idcabang,
-        "satuan": satuan
       };
 }

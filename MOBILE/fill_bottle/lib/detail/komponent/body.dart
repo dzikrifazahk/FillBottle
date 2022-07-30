@@ -5,7 +5,6 @@ import 'package:fill_bottle/detail/komponent/build_image.dart';
 
 class Body extends StatelessWidget {
   final String judul, harga, deskripsi, url, satuan;
-  final bool fav;
   final Function press;
   const Body(
       {Key key,
@@ -13,7 +12,6 @@ class Body extends StatelessWidget {
       this.harga,
       this.deskripsi,
       this.url,
-      this.fav,
       this.press,
       this.satuan})
       : super(key: key);
@@ -25,7 +23,6 @@ class Body extends StatelessWidget {
         SizedBox(height: 10.0),
         BuildImage(
           url: url,
-          fav: fav,
           press: press,
         ),
         SizedBox(height: 10.0),
@@ -73,13 +70,13 @@ class Body extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                " /" + satuan,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              )
+              // Text(
+              //   " /" + satuan,
+              //   style: TextStyle(
+              //     fontSize: 20.0,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // )
             ],
           ),
         ),

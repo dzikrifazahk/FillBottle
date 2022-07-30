@@ -112,13 +112,13 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute<void>(
                                 builder: (context) => ProdukDetailPage(
-                                  searchresult[i].id,
-                                  searchresult[i].nama,
-                                  searchresult[i].harga,
-                                  searchresult[i].foto,
-                                  searchresult[i].deskripsi,
-                                  false,
-                                  searchresult[i].deskripsi,
+                                  id: searchresult[i].id,
+                                  nama: searchresult[i].nama,
+                                  harga: int.parse(searchresult[i].harga),
+                                  foto: searchresult[i].foto,
+                                  deskripsi: searchresult[i].deskripsi,
+                                  // false,
+                                  // searchresult[i].deskripsi,
                                 ),
                               ),
                             );
@@ -159,13 +159,13 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute<void>(
                                 builder: (context) => ProdukDetailPage(
-                                  searchresult[i].id,
-                                  searchresult[i].nama,
-                                  searchresult[i].harga,
-                                  searchresult[i].foto,
-                                  searchresult[i].deskripsi,
-                                  false,
-                                  searchresult[i].deskripsi,
+                                  id: searchresult[i].id,
+                                  nama: searchresult[i].nama,
+                                  harga: int.parse(searchresult[i].harga),
+                                  foto: searchresult[i].foto,
+                                  deskripsi: searchresult[i].deskripsi,
+                                  // false,
+                                  // searchresult[i].deskripsi,
                                 ),
                               ),
                             );

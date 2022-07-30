@@ -21,7 +21,6 @@ class _KeranjangPageState extends State<KeranjangPage> {
   DbHelper dbHelper = DbHelper();
   List<Keranjang> keranjanglist = [];
   int _subtotal = 0;
-  String iUrl = Uri.http(sUrl, "/CodeIgniter3").toString();
   bool login = false;
   String userid = "";
 
@@ -30,6 +29,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
     super.initState();
     getKeranjang();
     cekLogin();
+    print(keranjanglist);
   }
 
   loadingProses(BuildContext context) {
@@ -76,9 +76,8 @@ class _KeranjangPageState extends State<KeranjangPage> {
     });
     int subtotal = 0;
     for (int i = 0; i < keranjanglist.length; i++) {
-      if (keranjanglist[i].hargax.trim() != "0") {
-        subtotal +=
-            keranjanglist[i].jumlah * int.parse(keranjanglist[i].hargax.trim());
+      if (keranjanglist[i].harga != "0") {
+        subtotal += keranjanglist[i].jumlah * keranjanglist[i].harga;
       }
     }
     setState(() {
@@ -206,53 +205,25 @@ class _KeranjangPageState extends State<KeranjangPage> {
   }
 
   Widget _keranjangKosong() {
-    return SafeArea(
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Positioned(
-              child: Card(
-                elevation: 10.0,
-                shadowColor: Color.fromARGB(255, 29, 11, 11).withOpacity(0.5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage('assets/images/braga.png'))),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    // return FutureBuilder(
-    //     future: Future.delayed(Duration(seconds: 1)),
-    //     builder: (c, s) => s.connectionState == ConnectionState.done
-    //         ? keranjanglist.isEmpty
-    //             ? SafeArea(
-    //                 child: Center(
-    //                   child: Container(
-    //                     padding: EdgeInsets.only(left: 25, right: 25),
-    //                     child: Text("Keranjang Kosong",
-    //                         style: TextStyle(fontSize: 18)),
-    //                   ),
-    //                 ),
-    //               )
-    //             : Center(
-    //                 child: CircularProgressIndicator(),
-    //               )
-    //         : Center(
-    //             child: CircularProgressIndicator(),
-    //           ));
+    return FutureBuilder(
+        future: Future.delayed(Duration(seconds: 1)),
+        builder: (c, s) => s.connectionState == ConnectionState.done
+            ? keranjanglist.isEmpty
+                ? SafeArea(
+                    child: Center(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 25, right: 25),
+                        child: Text("Keranjang Kosong",
+                            style: TextStyle(fontSize: 18)),
+                      ),
+                    ),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(),
+                  )
+            : Center(
+                child: CircularProgressIndicator(),
+              ));
   }
 
   Widget _widgetKeranjang() {
@@ -294,7 +265,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Image.network(
-                                iUrl + "/" + s.data[i].thumbnail,
+                                'https://fillbottle.nataysa.com/storage' + "/" + s.data[i].foto,
                                 height: 110,
                                 width: 110,
                               ),
@@ -304,22 +275,22 @@ class _KeranjangPageState extends State<KeranjangPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      s.data[i].judul,
+                                      s.data[i].nama,
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          s.data[i].harga,
+                                          s.data[i].harga.toString(),
                                           style: TextStyle(
                                               fontSize: 14, color: Colors.red),
                                         ),
-                                        Text(
-                                          " /" + s.data[i].satuan,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
+                                        // Text(
+                                        //   " /" + s.data[i].satuan,
+                                        //   style: TextStyle(
+                                        //     fontSize: 14,
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                     Row(
