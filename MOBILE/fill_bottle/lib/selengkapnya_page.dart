@@ -82,7 +82,7 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: BuildSearch(context),
       // AppBar(
       //   backgroundColor: Colors.blue,
       //   title: Text(widget.title),
@@ -127,7 +127,7 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Image.network(
-                                iUrl + "/" + searchresult[i].foto,
+                                'https://fillbottle.nataysa.com/storage' + "/" + searchresult[i].foto,
                                 fit: BoxFit.fill,
                               ),
                               Container(
@@ -200,9 +200,9 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
     );
   }
 
-  Widget buildAppBar(BuildContext context) {
+  Widget BuildSearch(BuildContext context) {
     return AppBar(
-      backgroundColor: Color.fromARGB(255, 163, 165, 241),
+      backgroundColor: Colors.blue,
       title: InkWell(
         onTap: () {
           setState(() {
@@ -228,8 +228,7 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
               fillColor: Colors.white,
               filled: true,
 
-              suffixIcon:
-                  Icon(Icons.search, color: Color.fromARGB(255, 163, 165, 241)),
+              suffixIcon: Icon(Icons.search, color: Colors.blue),
               hintText: "Search " + widget.title,
               //hintStyle: TextStyle(color: Colors.white),
             ),
