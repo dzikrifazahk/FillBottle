@@ -56,11 +56,10 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
     Database db = await dbHelper.database;
     var batch = db.batch();
     db.execute(
-        'insert into keranjang(userid, idproduk,kode,nama,deskripsi,harga,foto,jumlah) values(?,?,?,?,?,?,?,?)',
+        'insert into keranjang(idproduk,userid,nama,deskripsi,harga,foto,jumlah) values(?,?,?,?,?,?,?)',
         [
-          _keranjang.userid,
           _keranjang.idproduk,
-          _keranjang.kode,
+          _keranjang.userid,
           _keranjang.nama,
           _keranjang.deskripsi,
           _keranjang.harga,
@@ -199,11 +198,11 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
         ],
       ),
       bottomNavigationBar: BuildBottomAppBar(
-        pressK: () {
+        pressB: () {
           Navigator.of(context).pushNamedAndRemoveUntil(
               '/keranjangusers', (Route<dynamic> route) => false);
         },
-        pressB: () {
+        pressK: () {
           if (true == true) {
             Keranjang _keranjangku = Keranjang(
               idproduk: widget.id,
@@ -211,9 +210,11 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
               harga: widget.harga,
               foto: widget.foto,
               jumlah: 1,
-              userid: widget.userid,
+              // userid: widget.userid,
+              deskripsi: widget.deskripsi,
               // satuan: "Liter"
             );
+            // print(widget.deskripsi);
             saveKeranjang(_keranjangku);
           }
         },

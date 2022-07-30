@@ -82,11 +82,11 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setString('level', response[0]['level']);
         if (widget.nav == "") {
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/intropage', (route) => false);
+              .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         } else {
           _updateKeranjang(response[0]['email']);
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/intropage', (route) => false);
+              .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         }
       } else {
         _showAlertDialog(context, response['response_message']);

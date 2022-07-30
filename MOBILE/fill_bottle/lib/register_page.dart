@@ -17,10 +17,12 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _form = GlobalKey<FormState>();
-  TextEditingController user = TextEditingController();
-  TextEditingController pass = TextEditingController();
-  TextEditingController cpass = TextEditingController();
-  TextEditingController telp = TextEditingController();
+  TextEditingController namaDepan = TextEditingController();
+  TextEditingController namaBelakang = TextEditingController();
+  TextEditingController telepon = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController passwordConfirm = TextEditingController();
   bool _isObpass = true;
   bool _isObcpass = true;
 
@@ -29,42 +31,55 @@ class _RegisterPageState extends State<RegisterPage> {
   _createAccount() async {
     String params = '/api/customer';
     var url = Uri.http(sUrl, params);
-    Map<String, String> body = {"email": telp.text, "pass": pass.text};
+    Map<String, String> body = {
+      "name": namaDepan.text,
+      "last_name": namaBelakang.text,
+      "telp": telepon.text,
+      "email": email.text,
+      "password": password.text
+    };
+
     try {
       final response = await http.post(
         url,
         body: body,
       );
       if (response.statusCode == 200) {
-        if (response.body == "OK") {
-          _scaffold.currentState.showSnackBar(SnackBar(
-            behavior: SnackBarBehavior.floating,
-            content: Text("Registration Success",
-                style: TextStyle(color: Colors.black)),
-            duration: Duration(seconds: 3),
-            backgroundColor: Colors.white,
-          ));
-          setState(() {
-            user.text = "";
-            telp.text = "";
-            pass.text = "";
-            cpass.text = "";
-          });
-        } else {
-          _scaffold.currentState.showSnackBar(SnackBar(
-            behavior: SnackBarBehavior.floating,
-            content: Text("Registration Gagal",
-                style: TextStyle(color: Colors.black)),
-            duration: Duration(seconds: 3),
-            backgroundColor: Colors.white,
-          ));
-          setState(() {
-            user.text = "";
-            telp.text = "";
-            pass.text = "";
-            cpass.text = "";
-          });
-        }
+        _scaffold.currentState.showSnackBar(SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content:
+              Text("Registrasi Sukses", style: TextStyle(color: Colors.black)),
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.white,
+        ));
+        setState(() {
+          namaDepan.text = "";
+          namaBelakang.text = "";
+          telepon.text = "";
+          email.text = "";
+          password.text = "";
+          passwordConfirm.text = "";
+        });
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return LoginPage();
+        }));
+      } else {
+        _scaffold.currentState.showSnackBar(SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content:
+              Text("Registration Gagal", style: TextStyle(color: Colors.black)),
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.white,
+        ));
+        setState(() {
+          namaDepan.text = "";
+          namaBelakang.text = "";
+          telepon.text = "";
+          email.text = "";
+          password.text = "";
+          passwordConfirm.text = "";
+        });
       }
     } catch (e) {}
     return params;
@@ -98,14 +113,21 @@ class _RegisterPageState extends State<RegisterPage> {
         body: SingleChildScrollView(
           // reverse: true,
           child: Container(
-              height: size.height,
+              // height: MediaQuery.of(context).size.height,
               width: double.infinity,
               color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // ImageWithIcon(),
-                  Image.asset('assets/images/FillBottleLauncher.png'),
+                  Image.asset(
+                    'assets/images/FillBottleLauncher.png',
+                    width: 250,
+                    height: 250,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Padding(
@@ -119,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 0),
                                 child: TextFormField(
-                                  controller: user,
+                                  controller: namaDepan,
                                   decoration: InputDecoration(
                                     enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
@@ -132,7 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       width: 2,
                                     )),
                                     hintText: "Hanya Contoh",
-                                    labelText: 'Nama Lengkap',
+                                    labelText: 'Nama Depan',
                                     labelStyle: TextStyle(
                                       color: Color.fromARGB(255, 48, 48, 48),
                                     ),
@@ -141,19 +163,86 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                   validator: (text) {
                                     if (text == null || text.isEmpty) {
-                                      return 'Nama Lengkap cannot be empty';
+                                      return 'Nama depan tidak boleh kosong';
                                     }
                                   },
                                 ),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 0),
+                                child: TextFormField(
+                                  controller: namaBelakang,
+                                  decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 48, 48, 48),
+                                      width: 2,
+                                    )),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 48, 48, 48),
+                                      width: 2,
+                                    )),
+                                    hintText: "Hanya Contoh",
+                                    labelText: 'Nama Belakang',
+                                    labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 48, 48, 48),
+                                    ),
+                                    prefixIcon: Icon(Icons.person,
+                                        color: Color.fromARGB(255, 48, 48, 48)),
+                                  ),
+                                  validator: (text) {
+                                    if (text == null || text.isEmpty) {
+                                      return 'Nama belakang tidak boleh kosong';
+                                    }
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 0),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: email,
+                                  validator: (text) {
+                                    if (text == null || text.isEmpty) {
+                                      return 'Email tidak boleh kosong';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 48, 48, 48),
+                                      width: 2,
+                                    )),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 48, 48, 48),
+                                      width: 2,
+                                    )),
+                                    hintText: "ex@sample.com",
+                                    labelText: 'Email',
+                                    labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 48, 48, 48),
+                                    ),
+                                    prefixIcon: Icon(Icons.email,
+                                        color: Color.fromARGB(255, 48, 48, 48)),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 0),
                                 child: TextFormField(
                                   keyboardType: TextInputType.phone,
-                                  controller: telp,
+                                  controller: telepon,
                                   validator: (text) {
                                     if (text == null || text.isEmpty) {
                                       return 'Nomor Telpon Tidak Boleh Kosong';
@@ -186,12 +275,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 0),
                                 child: TextFormField(
-                                  controller: pass,
+                                  controller: password,
                                   validator: (text) {
                                     if (text == null || text.isEmpty) {
                                       return 'Password Tidak Boleh Kosong';
                                     } else if (text.length < 8) {
-                                      return "Password harus lebih 8 characters!";
+                                      return "Password harus lebih 8 karakter!";
                                     }
                                   },
                                   obscureText: _isObpass,
@@ -206,7 +295,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       color: Color.fromARGB(255, 48, 48, 48),
                                       width: 2,
                                     )),
-                                    hintText: "Password",
+                                    hintText: "password",
                                     labelText: 'Password',
                                     labelStyle: TextStyle(
                                       color: Color.fromARGB(255, 48, 48, 48),
@@ -242,12 +331,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 0),
                                 child: TextFormField(
-                                  controller: cpass,
+                                  controller: passwordConfirm,
                                   validator: (text) {
                                     if (text == null || text.isEmpty) {
-                                      return 'Confirm password cannot be empty';
-                                    } else if (text != pass.text) {
-                                      return "Password doesn't match";
+                                      return 'Konfirmasi password harap diisi';
+                                    } else if (text != password.text) {
+                                      return "Password tidak cocok";
                                     }
                                   },
                                   obscureText: _isObcpass,
@@ -262,8 +351,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       color: Color.fromARGB(255, 48, 48, 48),
                                       width: 2,
                                     )),
-                                    hintText: "Confirm Password",
-                                    labelText: 'Confirm Password',
+                                    hintText: "password",
+                                    labelText: 'Konfirmasi Password',
                                     labelStyle: TextStyle(
                                       color: Color.fromARGB(255, 48, 48, 48),
                                     ),
@@ -351,7 +440,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 50),
                             ],
                           ),
                         ),

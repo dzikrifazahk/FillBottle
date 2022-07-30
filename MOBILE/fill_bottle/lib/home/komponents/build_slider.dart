@@ -31,7 +31,7 @@ class _BuildSliderState extends State<BuildSlider> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsets.only(right: 20, left: 20, bottom: 10, top: 1),
       child: Column(
         children: [
           Padding(
@@ -39,46 +39,32 @@ class _BuildSliderState extends State<BuildSlider> {
             child: SizedBox(
               width: double.infinity,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     "Cabang Terpopuler",
                     style: TextStyle(fontSize: 16),
                   ),
-                  Row(children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute<void>(
-                              builder: (context) => TemukanPage()));
-                        },
-                        
-                        icon: SizedBox(
-                          width: 300,
-                          child: Row(
-                            children: [
-                              Text('Temukan Kami'),
-                              Icon(Icons.map_sharp),
-                            ],
-                          ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => TemukanPage()));
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Temukan Kami",
+                          style: TextStyle(fontSize: 16),
                         ),
-                        
-                        // InkWell(
-                        //   onTap: () {
-            
-                        //   },
-                        //   child: IconButton(
-                        //   "Temukan Kami",
-                        //   style: TextStyle(fontSize: 16),
-                        // ),
-                        // Icon(
-                        //   Icons.map_sharp,
-                        //   size: 35,
-                        //   color: Colors.grey,
-                        // ),,
-                        // )
+                        Icon(
+                          Icons.map_sharp,
+                          size: 35,
+                          color: Colors.grey,
                         )
-                  ]),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

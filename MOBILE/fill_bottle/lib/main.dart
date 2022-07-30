@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/intropage': (context) => IntroPage(),
         '/landingusers': (context) => LandingPage(),
         '/keranjangusers': (context) => LandingPage(nav: '2'),
+        '/profileusers': (context) => LandingPage(nav: '3'),
         // '/signup': (context) => SignupPage(),
         // '/forgot': (context) => Forgotpage(),
       },

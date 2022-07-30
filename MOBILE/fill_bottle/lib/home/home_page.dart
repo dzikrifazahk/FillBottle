@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:fill_bottle/model/keranjang.dart';
+import 'package:fill_bottle/profil/profil_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/scanner_page.dart';
 import 'package:fill_bottle/detail/produkdetailpage.dart';
@@ -75,9 +76,20 @@ class _HomePageState extends State<HomePage> {
   final globalKey = GlobalKey<ScaffoldState>();
   final TextEditingController _controller = TextEditingController();
   bool _isSearching = false;
+  bool _showBackToTopButton = false;
   List<Produk> searchresult = [];
+  ScrollController _scrollController = ScrollController();
 
   _HomePageState() {
+    _scrollController.addListener(() {
+      setState(() {
+        if (_scrollController.offset >= 400) {
+          _showBackToTopButton = true; // show the back-to-top button
+        } else {
+          _showBackToTopButton = false; // hide the back-to-top button
+        }
+      });
+    });
     _controller.addListener(() {
       if (_controller.text.isEmpty) {
         setState(() {
@@ -130,12 +142,24 @@ class _HomePageState extends State<HomePage> {
     return fetchProduk().then((_kategori) {});
   }
 
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.linear);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isSearching || _controller.text != ""
           ? SedangSearching(context)
           : TidakSearching(),
+      floatingActionButton: _showBackToTopButton == false
+          ? null
+          : FloatingActionButton(
+              backgroundColor: Color.fromARGB(255, 163, 165, 241),
+              onPressed: _scrollToTop,
+              child: const Icon(Icons.arrow_upward),
+            ),
     );
   }
 
@@ -206,11 +230,13 @@ class _HomePageState extends State<HomePage> {
 
   TidakSearching() {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Container(
+        // color: Colors.grey,
         padding: EdgeInsets.only(top: 55),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -220,14 +246,17 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FutureBuilder (future: getName(),builder: (context, AsyncSnapshot snapshot) {
-                        return Text('Hello, ${snapshot.data ?? ""}',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Color.fromARGB(255, 69, 71, 157),
-                              fontWeight: FontWeight.bold),
-                        );
-                      }),
+                      FutureBuilder(
+                          future: getName(),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            return Text(
+                              'Hello, ${snapshot.data ?? ""}',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromARGB(255, 69, 71, 157),
+                                  fontWeight: FontWeight.bold),
+                            );
+                          }),
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Text(
@@ -243,10 +272,16 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(right: 20),
-                  child: new Icon(
-                    Icons.account_circle_rounded,
-                    size: 50,
-                    color: Color.fromARGB(255, 163, 165, 241),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/profileusers', (route) => false);
+                    },
+                    child: new Icon(
+                      Icons.account_circle_rounded,
+                      size: 50,
+                      color: Color.fromARGB(255, 163, 165, 241),
+                    ),
                   ),
                 ),
               ],
@@ -255,16 +290,9 @@ class _HomePageState extends State<HomePage> {
             BuildSearch(context),
             SizedBox(height: 10),
             CarouselSliderPage(),
-            SizedBox(height: 10),
+            SizedBox(height: 1),
             BuildSlider(),
             SizedBox(height: 30),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Semua Produk",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold))),
             AllProduct(context),
           ],
         ),
@@ -272,79 +300,99 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget AllProduct(BuildContext context) {
+  AllProduct(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      height: MediaQuery.of(context).size.height,
-      width: double.infinity,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
-            childAspectRatio: 3 / 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10),
-        itemBuilder: (context, i) => Card(
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProdukDetailPage(
-                          id: produkList[i].id,
-                          nama: produkList[i].nama,
-                          harga: int.parse(produkList[i].harga),
-                          foto: produkList[i].foto,
-                          deskripsi: produkList[i].deskripsi,
-                        )),
-              );
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10),
-                Expanded(
-                  child: Image(
-                    image: NetworkImage(
-                        'https://fillbottle.nataysa.com/storage' +
-                            '/' +
-                            produkList[i].foto),
-                    fit: BoxFit.cover,
+      // height: 400,
+      padding: EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Text("Semua Produk",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold))),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 1.19,
+            width: double.infinity,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 3 / 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10),
+              itemBuilder: (context, i) => Card(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProdukDetailPage(
+                                id: produkList[i].id,
+                                nama: produkList[i].nama,
+                                harga: int.parse(produkList[i].harga),
+                                foto: produkList[i].foto,
+                                deskripsi: produkList[i].deskripsi,
+                              )),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
+                      Expanded(
+                        child: Image(
+                          image: NetworkImage('http://${sUrl}/storage' +
+                              '/' +
+                              produkList[i].foto),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          produkList[i].nama ?? "No Title",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    produkList[i].nama ?? "No Title",
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+              ),
+              itemCount: produkList.length,
             ),
           ),
-        ),
-        itemCount: produkList.length,
+        ],
       ),
     );
   }
 
   Widget BuildSearch(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-      padding: EdgeInsets.only(left: 15),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 163, 165, 241),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-            hintText: "Temukan kunjungan anda",
-            hintStyle: TextStyle(color: Colors.white),
-            border: InputBorder.none,
-            suffixIcon: Icon(
-              Icons.search,
-              color: Colors.white70,
-            )),
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+        padding: EdgeInsets.only(left: 15),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 163, 165, 241),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: TextField(
+          decoration: InputDecoration(
+              hintText: "Temukan kunjungan anda",
+              hintStyle: TextStyle(color: Colors.white),
+              border: InputBorder.none,
+              suffixIcon: Icon(
+                Icons.search,
+                color: Colors.white70,
+              )),
+        ),
       ),
     );
   }

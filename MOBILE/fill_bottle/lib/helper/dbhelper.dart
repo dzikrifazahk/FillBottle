@@ -26,7 +26,7 @@ class DbHelper {
     await db.execute('''
       CREATE TABLE keranjang(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idproduk INTEGER,
+        idproduk INTEGER NULL,
         partnerId INTEGER,
         userid INTEGER,
         kode INTEGER,
