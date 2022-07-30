@@ -78,7 +78,8 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setBool('login', true);
         prefs.setInt('id', response[0]['id']);
         prefs.setString('email', response[0]['email']);
-        prefs.setString('name', response[0]['name']);
+        prefs.setString(
+            'name', response[0]['name'] + ' ' + response[0]['last_name']);
         prefs.setString('level', response[0]['level']);
         if (widget.nav == "") {
           Navigator.of(context)

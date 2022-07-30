@@ -1,13 +1,6 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:flutter/material.dart';
-import 'package:fill_bottle/edit/edit_page.dart';
-import 'package:fill_bottle/landing_page.dart';
-import 'package:fill_bottle/profil/komponents/build_button.dart';
 import 'package:fill_bottle/profil/komponents/image_with_icon.dart';
-import 'package:fill_bottle/profil/komponents/tutorial_page.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LoginProfile extends StatefulWidget {
   final String userid, nama, level;
@@ -22,49 +15,55 @@ class _LoginProfileState extends State<LoginProfile> {
   void _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LandingPage()));
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/profileusers', (route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Text(
+            "Profil",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+        ),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Icon(
+                Icons.more_vert,
+                color: Colors.black,
+              ))
+        ],
+      ),
+      body: Column(
         children: [
-          ImageWithIcon(),
+          Center(
+            child: ImageWithIcon(),
+          ),
           SizedBox(height: 15),
           Text(
-            "Hi, " + widget.nama,
-            style: TextStyle(fontSize: 20, color: Colors.blue),
+            widget.nama,
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           SizedBox(height: 15),
-          BuildButton(
-            title: "Edit Profil",
-            press: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => EditPage(
-                        userid: widget.userid,
-                      )));
-            },
-          ),
-          SizedBox(height: 10),
-          BuildButton(
-            title: "Tutorial",
-            press: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => TutorialPage()));
-            },
-          ),
-          SizedBox(height: 10),
-          BuildButton(
-            title: "Pusat Bantuan",
-            press: () => launch("tel://21213123123"),
-          ),
-          SizedBox(height: 10),
-          BuildButton(
-            title: "Logout",
-            press: _logout,
+          Text(
+            widget.nama,
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),

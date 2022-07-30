@@ -36,7 +36,7 @@ class _ImageWithIconState extends State<ImageWithIcon> {
           Stack(
             children: <Widget>[
               CircleAvatar(
-                radius: 100,
+                radius: 85,
                 backgroundColor: Colors.black12,
                 child: ClipOval(
                   child: image == null
