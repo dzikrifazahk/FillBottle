@@ -43,6 +43,7 @@ class _TutorialPageState extends State<TutorialPage> {
       appBar: AppBar(
         title: Text('Halaman Panduan'),
         centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 163, 165, 241),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -76,7 +77,7 @@ class _TutorialPageState extends State<TutorialPage> {
               width: double.infinity,
               padding: const EdgeInsets.only(left: 53),
               child: Text(
-                'Buka aplikasi KUTIK-IN yang telah dipasang pada gadget anda.',
+                'Buka aplikasi Fill Bottle yang telah dipasang pada gadget anda.',
                 style: TextStyle(
                     color: Colors.black54,
                     // fontWeight: FontWeight.w500,
@@ -335,7 +336,7 @@ class _TutorialPageState extends State<TutorialPage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.whatsapp_outlined),
-        backgroundColor: Colors.blue[400],
+        backgroundColor: Color.fromARGB(255, 163, 165, 241),
         foregroundColor: Colors.white,
         onPressed: () {
           setState(() {

@@ -6,7 +6,7 @@ class BuildTextField extends StatelessWidget {
   final TextEditingController control;
   final String hint, label;
   final IconData icon;
-  final Function validasi;
+  final dynamic validasi;
   final TextInputType input;
   const BuildTextField({
     Key key,
@@ -21,29 +21,22 @@ class BuildTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 50),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
           keyboardType: input,
           style: TextStyle(color: Colors.black),
           controller: control,
           decoration: InputDecoration(
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-              color: Colors.blue,
-              width: 2,
-            )),
-            focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-              color: Colors.blue,
-              width: 2,
-            )),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
             focusColor: Colors.white,
             hintText: hint,
+            hintStyle: TextStyle(color: Colors.black26),
             labelText: label,
             labelStyle: TextStyle(
-              color: Colors.blue,
+              color: Colors.black,
             ),
-            prefixIcon: Icon(icon, color: Colors.blue),
+            prefixIcon: Icon(icon, color: Colors.black26),
           ),
           validator: validasi),
     );

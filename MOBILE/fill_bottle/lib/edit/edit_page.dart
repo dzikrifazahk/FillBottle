@@ -1,6 +1,7 @@
 // ignore_for_file: missing_return, missing_required_param
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/edit/komponent/body.dart';
@@ -10,7 +11,7 @@ import 'package:fill_bottle/model/pelanggan.dart';
 import 'package:http/http.dart' as http;
 
 class EditPage extends StatefulWidget {
-  final String userid;
+  final int userid;
   const EditPage({Key key, this.userid}) : super(key: key);
 
   @override
@@ -18,54 +19,62 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
-  List<Pelanggan> pelangganList = [];
-  TextEditingController nama, alamat, kota, provinsi, kodepos, telp, email;
+  TextEditingController namaDepan,
+      namaBelakang,
+      alamat,
+      kota,
+      provinsi,
+      kodepos,
+      telp,
+      email;
   final _form = GlobalKey<FormState>();
 
-  Future<List<Pelanggan>> fetchPelanggan(String id) async {
-    List<Pelanggan> usersList;
-    var params = "/CodeIgniter3/pelanggan";
-    var url = Uri.http(sUrl, params, {"userid": id});
-    try {
-      var response = await http.get(url);
-      if (response.statusCode == 200) {
-        final items = json.decode(response.body).cast<Map<String, dynamic>>();
-        usersList = items.map<Pelanggan>((json) {
-          return Pelanggan.fromJson(json);
-        }).toList();
-        setState(() {
-          pelangganList = usersList;
-        });
-      }
-    } catch (e) {
-      usersList = pelangganList;
-    }
-    return usersList;
+  Future getData() async {
+    var params = "/api/showCustomer/" + widget.userid.toString();
+    var url = Uri.http(sUrl, params);
+    final response = await http.get(url);
+    return json.decode(response.body);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Profile"),
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Edit Profile",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
-      body: FutureBuilder<List<Pelanggan>>(
-          future: fetchPelanggan(widget.userid),
-          builder: (context, s) {
-            if (!s.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            for (int i = 0; i < s.data.length; i++) {
-              return Body(
-                  nama: pelangganList[i].nama,
-                  alamat: pelangganList[i].alamat,
-                  telp: pelangganList[i].telp,
-                  kota: pelangganList[i].kota,
-                  kodepos: pelangganList[i].kodepos,
-                  provinsi: pelangganList[i].provinsi,
-                  email: pelangganList[i].email);
-            }
-          }),
+      body: FutureBuilder(
+        future: getData(),
+        builder: (context, s) {
+          if (!s.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return Body(
+              userid: widget.userid,
+              namaDepan: s.data['name'],
+              namaBelakang: s.data['last_name'],
+              kode: s.data['kode'],
+              alamat: s.data['customer']['alamat'],
+              kota: s.data['customer']['kota'],
+              provinsi: s.data['customer']['provinsi'],
+              kodepos: s.data['customer']['kodepos'],
+              telp: s.data['telp'],
+              image: s.data['customer']['foto'],
+              email: s.data['email']);
+        },
+      ),
     );
   }
 }

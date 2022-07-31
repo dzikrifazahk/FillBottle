@@ -14,14 +14,16 @@ class ProfilPage extends StatefulWidget {
 
 class _ProfilPageState extends State<ProfilPage> {
   bool login = false;
-  String userid;
+  int userid;
+  String email;
   String nama;
   String level;
   cekLogin() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       login = prefs.getBool('login') ?? false;
-      userid = prefs.getString('email') ?? "";
+      userid = prefs.getInt('id') ?? 0;
+      email = prefs.getString('email') ?? "";
       nama = prefs.getString('name') ?? "";
       level = prefs.getString('level') ?? "";
     });
@@ -41,7 +43,8 @@ class _ProfilPageState extends State<ProfilPage> {
         //   // title: Text("Akun Saya"),
         // ),
         body: login
-            ? LoginProfile(userid: userid, nama: nama, level: level)
+            ? LoginProfile(
+                userid: userid, email: email, nama: nama, level: level)
             : LoginPage());
   }
 }

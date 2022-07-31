@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/introduction/intro.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LauncherPage extends StatefulWidget {
   const LauncherPage({Key key}) : super(key: key);

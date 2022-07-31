@@ -319,7 +319,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text("Semua Produk",
                       style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          // color: Colors.black,
                           fontWeight: FontWeight.bold))),
             ],
           ),

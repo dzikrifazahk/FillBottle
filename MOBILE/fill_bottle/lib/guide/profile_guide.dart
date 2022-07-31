@@ -10,7 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginProfile extends StatefulWidget {
-  final String userid, nama, level;
+  final String nama, level;
+  final int userid;
   const LoginProfile({Key key, this.userid, this.nama, this.level})
       : super(key: key);
 

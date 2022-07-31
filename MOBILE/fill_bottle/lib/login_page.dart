@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: TextFormField(
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.emailAddress,
                         style:
                             TextStyle(color: Color.fromARGB(255, 77, 73, 73)),
                         controller: user,
