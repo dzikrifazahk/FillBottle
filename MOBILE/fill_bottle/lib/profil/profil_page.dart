@@ -21,7 +21,7 @@ class _ProfilPageState extends State<ProfilPage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       login = prefs.getBool('login') ?? false;
-      userid = prefs.getString('email') ?? "";
+      userid = prefs.getString('id') ?? "";
       nama = prefs.getString('name') ?? "";
       level = prefs.getString('level') ?? "";
     });

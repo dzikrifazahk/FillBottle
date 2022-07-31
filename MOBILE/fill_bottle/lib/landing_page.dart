@@ -89,7 +89,7 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                   GButton(
                     icon: Icons.camera_alt_outlined,
-                    text: 'Scan Here',
+                    text: 'Scan It',
                   ),
                   GButton(
                     icon: Icons.calendar_month_outlined,

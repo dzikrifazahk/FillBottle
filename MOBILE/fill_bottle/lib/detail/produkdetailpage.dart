@@ -121,7 +121,7 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Detail Informasi",
+          "Detail Produk",
           style: TextStyle(color: Colors.black),
         ),
         toolbarHeight: 80,
@@ -143,7 +143,8 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
         children: [
           SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Body(
                   judul: widget.nama,
@@ -157,41 +158,6 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
                   },
                   // satuan: widget.satuan,
                 ),
-                // Container(
-                //   margin: EdgeInsets.all(10),
-                //   child: DropdownButtonFormField(
-                //     decoration: InputDecoration(
-                //       contentPadding:
-                //           EdgeInsets.only(top: 10, bottom: 10, left: 12),
-                //       border: OutlineInputBorder(
-                //         borderRadius:
-                //             BorderRadius.all(const Radius.circular(10)),
-                //         borderSide: BorderSide(color: Colors.black, width: 1),
-                //       ),
-                //       focusedBorder: OutlineInputBorder(
-                //         borderRadius:
-                //             BorderRadius.all(const Radius.circular(10)),
-                //         borderSide: BorderSide(color: Colors.black, width: 1),
-                //       ),
-                //       fillColor: Colors.black,
-                //       filled: false,
-                //     ),
-                //     hint: Text("Pilih Cabang"),
-                //     value: _valcabang,
-                //     items: cabangList.map((item) {
-                //       return DropdownMenuItem(
-                //         child: Text(item.nama.toString()),
-                //         value: item.id.toString(),
-                //       );
-                //     }).toList(),
-                //     onChanged: (value) {
-                //       setState(() {
-                //         _valcabang = value;
-                //         _cekProdukCabang(widget.id.toString(), _valcabang);
-                //       });
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),
