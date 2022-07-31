@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:fill_bottle/bottomsheet/scanner/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:bottom_sheet_bar/bottom_sheet_bar.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({Key key}) : super(key: key);
@@ -44,8 +46,17 @@ class _ScannerPage extends State<ScannerPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
+BottomSheetBar(
+    expandedBuilder: (scrollController) => ListView.builder(
+        controller: scrollController, 
+        itemBuilder: (context, index) => ListTile(),
+        itemCount: 50,
+    ),
+    collapsed: Text('Collapsed toolbar widget'),
+    body: Text('Content overlayed by toolbar and bottom sheet'),
+)
+                    // Text(
+                    //     'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
                   else
                     const Text('Scan a code'),
                   Row(
