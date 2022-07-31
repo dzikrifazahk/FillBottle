@@ -1,9 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fill_bottle/temukan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/home/komponents/item_card.dart';
+import 'package:fill_bottle/model/cabang.dart';
+import 'package:fill_bottle/konstant.dart';
+import 'package:http/http.dart' as http;
 
 class BuildSlider extends StatefulWidget {
   const BuildSlider({Key key}) : super(key: key);
@@ -15,17 +20,42 @@ class BuildSlider extends StatefulWidget {
 class _BuildSliderState extends State<BuildSlider> {
   int _currentIndex = 0;
   List<int> cardList = [1, 2, 3];
-  List<String> imgSlider = [
-    'assets/images/gedungsate.png',
-    'assets/images/geologi.jpeg',
-    'assets/images/braga.png',
-  ];
+  List<Cabang> cabangList = [];
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
     for (var i = 0; i < list.length; i++) {
       result.add(handler(i, list[i]));
     }
     return result;
+  }
+
+  Future<List<Cabang>> fecthBranch() async {
+    List<Cabang> usersList;
+    var params = "/api/branch";
+    var url = Uri.http(sUrl, params);
+    try {
+      var response = await http.get(url);
+      // print(json.decode(response.body));
+      if (response.statusCode == 200) {
+        final items = json.decode(response.body).cast<Map<String, dynamic>>();
+        usersList = items.map<Cabang>((json) {
+          return Cabang.fromJson(json);
+        }).toList();
+        setState(() {
+          cabangList = usersList;
+        });
+      }
+    } catch (e) {
+      usersList = cabangList;
+    }
+    return usersList;
+    // print(usersList);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fecthBranch();
   }
 
   @override
@@ -43,7 +73,7 @@ class _BuildSliderState extends State<BuildSlider> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Cabang Terpopuler",
+                    "Cabang Kami",
                     style: TextStyle(fontSize: 16),
                   ),
                   InkWell(
@@ -74,15 +104,17 @@ class _BuildSliderState extends State<BuildSlider> {
             width: double.infinity,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: imgSlider.length,
+                itemCount: cabangList.length,
                 itemBuilder: (context, index) {
                   return Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(
-                              imgSlider[index],
+                            image: NetworkImage(
+                              'https://fillbottle.nataysa.com/storage' +
+                                  "/" +
+                                  cabangList[index].foto,
                             ))),
                     margin: EdgeInsets.only(right: 8),
                     padding: EdgeInsets.all(8),
@@ -93,16 +125,16 @@ class _BuildSliderState extends State<BuildSlider> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Gedung Bagus",
+                          cabangList[index].nama,
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Color.fromARGB(255, 163, 165, 241),
                               fontSize: 12,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Jarak",
+                          cabangList[index].kota,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Color.fromARGB(255, 163, 165, 241),
                             fontSize: 10,
                           ),
                         ),

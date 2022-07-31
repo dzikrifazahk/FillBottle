@@ -26,7 +26,7 @@ class _TransaksiPageState extends State<TransaksiPage>
     return Scaffold(
       appBar: AppBar(
         title: Text("Transaksi"),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromARGB(255, 163, 165, 241),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,

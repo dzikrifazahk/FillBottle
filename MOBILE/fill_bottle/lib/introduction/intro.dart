@@ -12,6 +12,7 @@ class IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: OnBoard(
+        
         onBoardData: onBoardData,
         pageController: _pageController,
         // Either Provide onSkip Callback or skipButton Widget to handle skip state
@@ -154,21 +155,21 @@ final List<OnBoardModel> onBoardData = [
   const OnBoardModel(
     title: "",
     description: "",
-    imgUrl: "assets/images/introduction/pertama.png",
+    imgUrl: "assets/images/introduction/intro1.png",
   ),
   const OnBoardModel(
     title: "",
     description: "",
-    imgUrl: 'assets/images/introduction/kedua.png',
+    imgUrl: 'assets/images/introduction/intro2.png',
   ),
   const OnBoardModel(
     title: "",
     description: "",
-    imgUrl: 'assets/images/introduction/ketiga.png',
+    imgUrl: 'assets/images/introduction/intro3.png',
   ),
   const OnBoardModel(
     title: "",
     description: "",
-    imgUrl: 'assets/images/introduction/keempat.png',
+    imgUrl: 'assets/images/introduction/intro4.png',
   ),
 ];

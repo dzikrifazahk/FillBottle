@@ -34,7 +34,7 @@ class _TemukanPageState extends State<TemukanPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text("Toko Kami"),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromARGB(255, 163, 165, 241),
       ),
       body: WillPopScope(
         onWillPop: () => _goBack(context),
