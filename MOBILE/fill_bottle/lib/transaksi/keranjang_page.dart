@@ -22,14 +22,13 @@ class _KeranjangPageState extends State<KeranjangPage> {
   List<Keranjang> keranjanglist = [];
   int _subtotal = 0;
   bool login = false;
-  String userid = "";
+  int userid = 0;
 
   @override
   void initState() {
     super.initState();
     getKeranjang();
     cekLogin();
-    print(keranjanglist);
   }
 
   loadingProses(BuildContext context) {
@@ -65,7 +64,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
   Future<List<Keranjang>> getKeranjang() async {
     final Future<Database> dbFuture = dbHelper.initDb();
     dbFuture.then((database) {
-      Future<List<Keranjang>> listFuture = dbHelper.getKeranjang();
+      Future<List<Keranjang>> listFuture = dbHelper.getKeranjang(userid);
       listFuture.then((_keranjanglist) {
         if (mounted) {
           setState(() {
@@ -76,8 +75,12 @@ class _KeranjangPageState extends State<KeranjangPage> {
     });
     int subtotal = 0;
     for (int i = 0; i < keranjanglist.length; i++) {
-      if (keranjanglist[i].harga != "0") {
-        subtotal += keranjanglist[i].jumlah * keranjanglist[i].harga;
+      if (keranjanglist[i].userid == userid) {
+        if (keranjanglist[i].harga != "0") {
+          subtotal += keranjanglist[i].jumlah * keranjanglist[i].harga;
+        }
+      } else {
+        keranjanglist = [];
       }
     }
     setState(() {
@@ -90,7 +93,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       login = prefs.getBool('login') ?? false;
-      userid = prefs.getString('username') ?? "";
+      userid = prefs.getInt('id') ?? 0;
     });
   }
 
@@ -126,9 +129,18 @@ class _KeranjangPageState extends State<KeranjangPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      body: keranjanglist.isEmpty ? _keranjangKosong() : _widgetKeranjang(),
+      // body: keranjanglist.length < 1 ? _keranjangKosong() : _widgetKeranjang(),
+      body: login
+          ? keranjanglist.length < 1
+              ? _keranjangKosong()
+              : _widgetKeranjang()
+          : LoginPage(),
       bottomNavigationBar: Visibility(
-        visible: keranjanglist.isEmpty ? false : true,
+        visible: login
+            ? keranjanglist.isEmpty
+                ? false
+                : true
+            : false,
         child: BottomAppBar(
           color: Colors.transparent,
           child: Container(
@@ -265,7 +277,9 @@ class _KeranjangPageState extends State<KeranjangPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Image.network(
-                                'https://fillbottle.nataysa.com/storage' + "/" + s.data[i].foto,
+                                'https://${sUrl}/storage' +
+                                    "/" +
+                                    s.data[i].foto,
                                 height: 110,
                                 width: 110,
                               ),

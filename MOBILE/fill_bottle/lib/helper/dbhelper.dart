@@ -51,12 +51,17 @@ class DbHelper {
     return mapList;
   }
 
-  Future<List<Keranjang>> getKeranjang() async {
+  Future<List<Keranjang>> getKeranjang(int userId) async {
     var mapList = await selectKeranjang();
     int count = mapList.length;
     List<Keranjang> list = <Keranjang>[];
+    print(mapList);
     for (int i = 0; i < count; i++) {
-      list.add(Keranjang.fromMap(mapList[i]));
+      if (Keranjang.fromMap(mapList[i]).userid == userId) {
+        list.add(Keranjang.fromMap(mapList[i]));
+      } else {
+        list = [];
+      }
     }
     return list;
   }

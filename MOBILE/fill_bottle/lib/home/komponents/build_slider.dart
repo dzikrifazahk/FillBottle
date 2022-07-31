@@ -112,7 +112,7 @@ class _BuildSliderState extends State<BuildSlider> {
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              'https://fillbottle.nataysa.com/storage' +
+                              'http://${sUrl}/storage' +
                                   "/" +
                                   cabangList[index].foto,
                             ))),

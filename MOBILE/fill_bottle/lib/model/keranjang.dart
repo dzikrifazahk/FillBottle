@@ -29,18 +29,17 @@ class Keranjang {
 
   factory Keranjang.fromJson(Map<String, dynamic> json) {
     return Keranjang(
-      id: json['id'] as int,
-      partnerId: json['partnerId'] as int,
-      kode: json['kode'] as String,
-      nama: json['harga'] as String,
-      deskripsi: json['deskripsi'] as String,
-      harga: json['harga'] as int,
-      foto: json['foto'] as String,
-      partner: json['partner'] as String,
-      idproduk: json['idproduk'] as int,
-      jumlah: json['jumlah'] as int,
-      userid: json['userid'] as int
-    );
+        id: json['id'] as int,
+        partnerId: json['partnerId'] as int,
+        kode: json['kode'] as String,
+        nama: json['harga'] as String,
+        deskripsi: json['deskripsi'] as String,
+        harga: json['harga'] as int,
+        foto: json['foto'] as String,
+        partner: json['partner'] as String,
+        idproduk: json['idproduk'] as int,
+        jumlah: json['jumlah'] as int,
+        userid: json['userid'] as int);
   }
 
   factory Keranjang.fromMap(Map<String, dynamic> map) {
@@ -48,7 +47,7 @@ class Keranjang {
       id: map['id'] as int,
       partnerId: map['partnerId'] as int,
       kode: map['kode'] as String,
-      nama: map['harga'] as String,
+      nama: map['nama'] as String,
       deskripsi: map['deskripsi'] as String,
       harga: map['harga'] as int,
       foto: map['foto'] as String,

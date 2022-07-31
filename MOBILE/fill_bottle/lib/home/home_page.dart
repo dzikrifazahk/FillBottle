@@ -32,15 +32,17 @@ class _HomePageState extends State<HomePage> {
   List<Kategori> kategorilist = [];
   List<Produk> produkList = [];
   bool login = false;
-  String userid;
+  int userid;
   String nama;
+  String email;
   String level;
   cekLogin() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       login = prefs.getBool('login') ?? false;
-      userid = prefs.getString('email') ?? "";
+      userid = prefs.getInt('id') ?? 0;
       nama = prefs.getString('name') ?? "";
+      email = prefs.getString('email') ?? "";
       level = prefs.getString('level') ?? "";
     });
   }
@@ -51,7 +53,6 @@ class _HomePageState extends State<HomePage> {
     var url = Uri.http(sUrl, params);
     try {
       var response = await http.get(url);
-      // print(json.decode(response.body));
       if (response.statusCode == 200) {
         final items = json.decode(response.body).cast<Map<String, dynamic>>();
         usersList = items.map<Produk>((json) {
@@ -64,8 +65,8 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       usersList = produkList;
     }
+    print(usersList);
     return usersList;
-    // print(usersList);
   }
 
   Icon icon = Icon(
@@ -197,6 +198,7 @@ class _HomePageState extends State<HomePage> {
                           foto: searchresult[i].foto,
                           harga: int.parse(searchresult[i].harga),
                           deskripsi: searchresult[i].deskripsi,
+                          userid: userid,
                           // false,
                           // searchresult[i].deskripsi,
                         ),
@@ -207,9 +209,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.network(
-                        'https://fillbottle.nataysa.com/storage' +
-                            "/" +
-                            searchresult[i].foto,
+                        'http://${sUrl}/storage' + "/" + searchresult[i].foto,
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5, left: 5),
@@ -344,6 +344,7 @@ class _HomePageState extends State<HomePage> {
                                 harga: int.parse(produkList[i].harga),
                                 foto: produkList[i].foto,
                                 deskripsi: produkList[i].deskripsi,
+                                userid: userid,
                               )),
                     );
                   },

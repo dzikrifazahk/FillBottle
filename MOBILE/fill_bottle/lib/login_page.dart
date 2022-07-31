@@ -30,7 +30,10 @@ class _LoginPageState extends State<LoginPage> {
   _updateKeranjang(String userid) async {
     Database db = await dbHelper.database;
     var batch = db.batch();
-    db.execute('update keranjang set userid=?', [userid]);
+    var cek = await db.query('keranjang');
+    if (cek.length < 1) {
+      db.execute('update keranjang set userid=?', [userid]);
+    }
     await batch.commit();
   }
 
@@ -70,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         } else {
-          _updateKeranjang(response[0]['email']);
+          _updateKeranjang(response[0]['id']);
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/keranjangusers', (route) => false);
         }
@@ -85,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         } else {
-          _updateKeranjang(response[0]['email']);
+          _updateKeranjang(response[0]['id']);
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         }

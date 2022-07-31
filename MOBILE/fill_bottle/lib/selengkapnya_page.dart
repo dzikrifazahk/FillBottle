@@ -127,7 +127,9 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Image.network(
-                                'https://fillbottle.nataysa.com/storage' + "/" + searchresult[i].foto,
+                                'http://${sUrl}/storage' +
+                                    "/" +
+                                    searchresult[i].foto,
                                 fit: BoxFit.fill,
                               ),
                               Container(

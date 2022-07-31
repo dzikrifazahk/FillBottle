@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:fill_bottle/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/detail/komponent/body.dart';
 import 'package:fill_bottle/detail/komponent/build_bottom_app_bar.dart';
@@ -7,7 +8,9 @@ import 'package:fill_bottle/helper/dbhelper.dart';
 import 'package:fill_bottle/konstant.dart';
 import 'package:fill_bottle/landing_page.dart';
 import 'package:fill_bottle/model/keranjang.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:http/http.dart' as http;
 
 class ProdukDetailPage extends StatefulWidget {
   final Widget child;
@@ -30,21 +33,15 @@ class ProdukDetailPage extends StatefulWidget {
 }
 
 class _ProdukDetailPageState extends State<ProdukDetailPage> {
-  // List<Cabang> cabangList = [];
-  // String _valcabang;
-  // bool instok = false;
   String iUrl = Uri.http(sUrl, "/api/product").toString();
   String userid = "";
+  bool login = false;
   DbHelper dbHelper = DbHelper();
-  // bool fav = false;
 
   @override
   void initState() {
     super.initState();
-    // fetchCabang();
-    // if (widget.valstok == true) {
-    //   instok = widget.valstok;
-    // }
+    cekLogin();
   }
 
   @override
@@ -52,7 +49,18 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
     super.dispose();
   }
 
+  cekLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      login = prefs.getBool('login') ?? false;
+      userid = prefs.getInt('id').toString() ?? 0;
+    });
+  }
+
   saveKeranjang(Keranjang _keranjang) async {
+    // Database db = await dbHelper.database;
+    // var cek = await db.query('keranjang');
+    // print(cek);
     Database db = await dbHelper.database;
     var batch = db.batch();
     db.execute(
@@ -71,50 +79,14 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
         .pushNamedAndRemoveUntil('/keranjangusers', (route) => false);
   }
 
-  // Future<List<Cabang>> fetchCabang() async {
-  //   List<Cabang> usersList;
-  //   var params = "/CodeIgniter3/cabang";
-  //   var url = Uri.http(sUrl, params);
-  //   try {
-  //     var response = await http.get(url);
-  //     if (response.statusCode == 200) {
-  //       final items = json.decode(response.body).cast<Map<String, dynamic>>();
-  //       usersList = items.map<Cabang>((json) {
-  //         return Cabang.fromJson(json);
-  //       }).toList();
-  //       setState(() {
-  //         cabangList = usersList;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     usersList = cabangList;
-  //   }
-  //   return usersList;
-  // }
-
-  // _cekProdukCabang(String idproduk, String idcabang) async {
-  //   var params = "/CodeIgniter3/cekprodukbycabang";
-  //   var url =
-  //       Uri.http(sUrl, params, {"idproduk": idproduk, "idcabang": idcabang});
-  //   try {
-  //     var res = await http.get(url);
-  //     if (res.statusCode == 200) {
-  //       if (res.body == "OK") {
-  //         setState(() {
-  //           instok = true;
-  //         });
-  //       } else {
-  //         setState(() {
-  //           instok = false;
-  //         });
-  //       }
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       instok = false;
-  //     });
-  //   }
-  // }
+  saveKeranjangPref() async {
+    print(widget.userid);
+    var params = "http://" + sUrl + "/api/simpanKeranjang";
+    // var url = Uri.http(sUrl, params, {"user_id": 2, "product_id": 1});
+    var res = await http.post(Uri.parse(params),
+        body: {"user_id": widget.userid, "product_id": widget.id});
+    print(res.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,9 +122,7 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
                   judul: widget.nama,
                   deskripsi: widget.deskripsi,
                   harga: widget.harga.toString(),
-                  url: 'https://fillbottle.nataysa.com/storage' +
-                      "/" +
-                      widget.foto,
+                  url: 'http://${sUrl}/storage' + "/" + widget.foto,
                   press: () {
                     //klikFavorite(widget.id.toString(), userid);
                   },
@@ -169,19 +139,20 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
               '/keranjangusers', (Route<dynamic> route) => false);
         },
         pressK: () {
-          if (true == true) {
+          if (login) {
             Keranjang _keranjangku = Keranjang(
               idproduk: widget.id,
               nama: widget.nama,
               harga: widget.harga,
               foto: widget.foto,
               jumlah: 1,
-              // userid: widget.userid,
+              userid: widget.userid,
               deskripsi: widget.deskripsi,
               // satuan: "Liter"
             );
-            // print(widget.deskripsi);
             saveKeranjang(_keranjangku);
+          } else {
+            Navigator.pushNamed(context, '/profileusers');
           }
         },
         // instok: true,
