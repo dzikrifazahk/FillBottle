@@ -350,7 +350,7 @@ class _HomePageState extends State<HomePage> {
             CarouselSliderPage(),
             SizedBox(height: 1),
             BuildSlider(),
-            SizedBox(height: 30),
+            SizedBox(height: 10),
             AllProduct(context),
           ],
         ),
@@ -360,28 +360,27 @@ class _HomePageState extends State<HomePage> {
 
   AllProduct(BuildContext context) {
     return Container(
-      // height: 400,
       padding: EdgeInsets.all(10),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text("Semua Produk",
-                  style: TextStyle(
-                      fontSize: 18,
-                      // color: Colors.black,
-                      fontWeight: FontWeight.bold)),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text("Semua Produk",
+                style: TextStyle(
+                    fontSize: 18,
+                    // color: Colors.black,
+                    fontWeight: FontWeight.bold)),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height * 0.8,
             width: double.infinity,
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
-                  childAspectRatio: 3 / 2,
+                  childAspectRatio: 2 / 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10),
               itemBuilder: (context, i) => Card(
@@ -400,27 +399,59 @@ class _HomePageState extends State<HomePage> {
                               )),
                     );
                   },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      Expanded(
-                        child: Center(
-                          child: Image(
-                            image: NetworkImage('http://${sUrl}/storage' +
-                                '/' +
-                                produkList[i].foto),
-                            fit: BoxFit.cover,
+                      Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                'http://${sUrl}/storage' +
+                                    "/" +
+                                    produkList[i].foto,
+                              ))),
+                          margin: EdgeInsets.only(right: 8),
+                          padding: EdgeInsets.all(15),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                          width: double.infinity,
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  produkList[i].nama,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  produkList[i].harga,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          produkList[i].nama ?? "No Title",
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),
