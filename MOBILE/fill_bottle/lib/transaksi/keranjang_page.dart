@@ -42,24 +42,25 @@ class _KeranjangPageState extends State<KeranjangPage> {
   }
 
   _klikCheckout(List<Keranjang> _keranjang) async {
-    // loadingProses(context);
+    loadingProses(context);
     var params = '/api/saveTransaction';
-    var body = {'transaction_id': json.encode(_keranjang)};
-    print(body);
-    // var url = Uri.http(sUrl, params);
-    // try {
-    //   http.post(url, body: body).then((value) {
-    //     var res = value.body.toString();
-    //     if (res == "OK") {
-    //       Navigator.of(context).pop();
-    // _kosongkanKeranjang();
-    //       _scaffold.currentState.showSnackBar(SnackBar(
-    //           content: Text("Pembelian Berhasil"),
-    //           duration: Duration(seconds: 3)));
-    //     }
-    //   });
-    // } catch (e) {}
-    // return params;
+    var body = {
+      'userid': userid.toString(),
+      'total': _subtotal.toString(),
+      'metode': "1",
+      'listkeranjang': json.encode(_keranjang),
+    };
+    var url = Uri.http(sUrl, params);
+    http.post(url, body: body).then((value) {
+      if (value.statusCode == 200) {
+        Navigator.of(context).pop();
+        _kosongkanKeranjang();
+        _scaffold.currentState.showSnackBar(SnackBar(
+            content: Text("Pembelian Berhasil"),
+            duration: Duration(seconds: 3)));
+      }
+    });
+    return params;
   }
 
   Future<List<Keranjang>> getKeranjang() async {

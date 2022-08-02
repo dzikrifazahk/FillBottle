@@ -17,28 +17,14 @@ class StatusLogin extends StatefulWidget {
 }
 
 class _StatusLoginState extends State<StatusLogin> {
-  List<Penjualan> penjualanList = [];
+  List<dynamic> transaksiList = [];
   String iUrl = Uri.http(sUrl, "/CodeIgniter3").toString();
 
-  Future<List<Penjualan>> fetchPenjualan(String id) async {
-    List<Penjualan> usersList;
-    var params = "/CodeIgniter3/transaksibypelanggan";
-    var url = Uri.http(sUrl, params, {"id": id});
-    try {
-      var response = await http.get(url);
-      if (response.statusCode == 200) {
-        final items = json.decode(response.body).cast<Map<String, dynamic>>();
-        usersList = items.map<Penjualan>((json) {
-          return Penjualan.fromJson(json);
-        }).toList();
-        setState(() {
-          penjualanList = usersList;
-        });
-      }
-    } catch (e) {
-      usersList = penjualanList;
-    }
-    return usersList;
+  Future fetchTransaksi(String id) async {
+    var params = "/api/showTransaction/" + id;
+    var url = Uri.http(sUrl, params);
+    var response = await http.get(url);
+    return json.decode(response.body);
   }
 
   @override
@@ -56,12 +42,13 @@ class _StatusLoginState extends State<StatusLogin> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: FutureBuilder<List<Penjualan>>(
-              future: fetchPenjualan(widget.userid),
+          child: FutureBuilder(
+              future: fetchTransaksi(widget.userid),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
+
                 return Stack(
                   children: <Widget>[
                     Container(
@@ -73,9 +60,9 @@ class _StatusLoginState extends State<StatusLogin> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ItemList(
-                              nota: snapshot.data[index].nota,
-                              tanggal: snapshot.data[index].tanggal,
-                              st: snapshot.data[index].st,
+                              nota: snapshot.data[index]['kode'],
+                              tanggal: snapshot.data[index]['tanggal'],
+                              st: snapshot.data[index]['status'],
                             );
                           }),
                     ),

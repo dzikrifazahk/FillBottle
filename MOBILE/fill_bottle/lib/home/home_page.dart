@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: const Duration(seconds: 1), curve: Curves.linear);
+        duration: const Duration(milliseconds: 100), curve: Curves.linear);
   }
 
   @override

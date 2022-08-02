@@ -44,11 +44,11 @@ class _ItemListState extends State<ItemList> {
                   height: 25,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: widget.st == "1"
+                    color: widget.st == "0"
                         ? Colors.blue
-                        : widget.st == "2"
+                        : widget.st == "1"
                             ? Colors.teal
-                            : widget.st == "3"
+                            : widget.st == "2"
                                 ? Colors.green
                                 : Colors.red,
                     borderRadius: BorderRadius.only(
@@ -57,11 +57,11 @@ class _ItemListState extends State<ItemList> {
                   ),
                   child: Center(
                     child: Text(
-                      widget.st == "1"
+                      widget.st == "0"
                           ? "proses"
-                          : widget.st == "2"
+                          : widget.st == "1"
                               ? "di antar"
-                              : widget.st == "3"
+                              : widget.st == "2"
                                   ? "selesai"
                                   : "cancel",
                       style: TextStyle(color: Colors.white),

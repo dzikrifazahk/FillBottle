@@ -38,10 +38,6 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.blue,
-        //   // title: Text("Akun Saya"),
-        // ),
         body: login
             ? LoginProfile(
                 userid: userid, email: email, nama: nama, level: level)
