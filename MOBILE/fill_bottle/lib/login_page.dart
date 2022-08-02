@@ -31,10 +31,11 @@ class _LoginPageState extends State<LoginPage> {
     Database db = await dbHelper.database;
     var batch = db.batch();
     var cek = await db.query('keranjang');
-    if (cek.length < 1) {
-      db.execute('update keranjang set userid=?', [userid]);
-    }
-    await batch.commit();
+    // if (cek.length < 1) {
+    //   db.execute('update keranjang set userid=?', [userid]);
+    // }
+    // await batch.commit();
+    print(cek);
   }
 
   _showAlertDialog(BuildContext context, String e) {
@@ -88,7 +89,8 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         } else {
-          _updateKeranjang(response[0]['id']);
+          // _updateKeranjang(response[0]['id']);
+          // print(response[0]['id']);
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         }

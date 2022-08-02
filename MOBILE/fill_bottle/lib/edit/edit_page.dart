@@ -63,16 +63,16 @@ class _EditPageState extends State<EditPage> {
 
           return Body(
               userid: widget.userid,
-              namaDepan: s.data['name'],
-              namaBelakang: s.data['last_name'],
-              kode: s.data['kode'],
-              alamat: s.data['customer']['alamat'],
-              kota: s.data['customer']['kota'],
-              provinsi: s.data['customer']['provinsi'],
-              kodepos: s.data['customer']['kodepos'],
-              telp: s.data['telp'],
-              image: s.data['customer']['foto'],
-              email: s.data['email']);
+              namaDepan: s.data[0]['name'],
+              namaBelakang: s.data[0]['last_name'],
+              kode: s.data[0]['kode'],
+              alamat: s.data[0]['customer']['alamat'],
+              kota: s.data[0]['customer']['kota'],
+              provinsi: s.data[0]['customer']['provinsi'],
+              kodepos: s.data[0]['customer']['kodepos'],
+              telp: s.data[0]['telp'],
+              image: s.data[0]['customer']['foto'],
+              email: s.data[0]['email']);
         },
       ),
     );

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fill_bottle/detail/komponent/build_image.dart';
+import 'package:intl/intl.dart';
 
 class Body extends StatelessWidget {
   final String judul, harga, deskripsi, url, satuan;
@@ -35,20 +36,22 @@ class Body extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'RP ' + harga,
+                  // 'RP ' + harga,
+                  FormatCurrency.convertToIdr(int.parse(harga), 2),
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 30.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                // Text(
-                //   " /" + satuan,
-                //   style: TextStyle(
-                //     fontSize: 20.0,
-                //     fontWeight: FontWeight.w600,
-                //   ),
-                // )
+                Text(
+                  " / ml",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
               ],
             ),
           ),
@@ -93,10 +96,11 @@ class Body extends StatelessWidget {
             indent: 10,
             endIndent: 10,
           ),
+          SizedBox(height: 10.0),
           Padding(
             padding: const EdgeInsets.only(left: 30, right: 32),
             child: Text(
-              'Pesan dengan ukuran' + judul,
+              'Pesan ' + judul+' dengan ukuran per'+' ml',
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
@@ -104,9 +108,8 @@ class Body extends StatelessWidget {
               ),
             ),
           ),
-    
           SizedBox(height: 20.0),
-          const Divider(
+          Divider(
             color: Colors.black,
             height: 2.5,
             thickness: 0,
@@ -116,5 +119,16 @@ class Body extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class FormatCurrency {
+  static String convertToIdr(dynamic number, int decimalDigit) {
+    NumberFormat currencyFormatter = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp ',
+      decimalDigits: decimalDigit,
+    );
+    return currencyFormatter.format(number);
   }
 }

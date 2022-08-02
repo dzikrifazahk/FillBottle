@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       usersList = produkList;
     }
-    print(usersList);
+    // print(usersList);
     return usersList;
   }
 
@@ -115,7 +115,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fetchProduk();
     _isSearching = false;
-    fetchKategori();
     cekLogin();
   }
 
@@ -314,13 +313,11 @@ class _HomePageState extends State<HomePage> {
         children: [
           Row(
             children: [
-              Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text("Semua Produk",
-                      style: TextStyle(
-                          fontSize: 18,
-                          // color: Colors.black,
-                          fontWeight: FontWeight.bold))),
+              Text("Semua Produk",
+                  style: TextStyle(
+                      fontSize: 18,
+                      // color: Colors.black,
+                      fontWeight: FontWeight.bold)),
             ],
           ),
           SizedBox(
@@ -351,13 +348,14 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 10),
                       Expanded(
-                        child: Image(
-                          image: NetworkImage('http://${sUrl}/storage' +
-                              '/' +
-                              produkList[i].foto),
-                          fit: BoxFit.cover,
+                        child: Center(
+                          child: Image(
+                            image: NetworkImage('http://${sUrl}/storage' +
+                                '/' +
+                                produkList[i].foto),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Padding(

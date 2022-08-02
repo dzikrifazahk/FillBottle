@@ -35,7 +35,7 @@ class _BuildSliderState extends State<BuildSlider> {
     var url = Uri.http(sUrl, params);
     try {
       var response = await http.get(url);
-      // print(json.decode(response.body));
+      print(json.decode(response.body));
       if (response.statusCode == 200) {
         final items = json.decode(response.body).cast<Map<String, dynamic>>();
         usersList = items.map<Cabang>((json) {

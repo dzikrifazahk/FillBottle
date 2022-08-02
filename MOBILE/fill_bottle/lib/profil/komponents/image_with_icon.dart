@@ -26,19 +26,23 @@ class _ImageWithIconState extends State<ImageWithIcon> {
   Future openCamera() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
-    setState(() {
-      image = File(pickedImage.path);
-    });
-    await postImage(image);
+    if (pickedImage != null) {
+      setState(() {
+        image = File(pickedImage.path);
+      });
+      await postImage(image);
+    }
   }
 
   Future openGallery() async {
     final imageGallery =
         await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      image = File(imageGallery.path);
-    });
-    await postImage(image);
+    if (imageGallery != null) {
+      setState(() {
+        image = File(imageGallery.path);
+      });
+      await postImage(image);
+    }
   }
 
   Future postImage(File image) async {
