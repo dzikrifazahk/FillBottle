@@ -14,6 +14,7 @@ import 'package:fill_bottle/home/komponents/widget_by_kategori.dart';
 import 'package:fill_bottle/konstant.dart';
 import 'package:fill_bottle/maps_page.dart';
 import 'package:fill_bottle/model/kategori.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fill_bottle/model/produk.dart';
@@ -336,7 +337,51 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 1),
             BuildSlider(),
             SizedBox(height: 10),
-            AllProduct(context),
+            // AllProduct(context),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: StaggeredGrid.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                  children: List.generate(
+                    produkList.length,
+                    (index) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1, 2),
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 10)
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                'https://$sUrl/storage/${produkList[index].foto}',
+                                width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text("${produkList[index].nama}"),
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+            ),
+
+            SizedBox(height: 50),
           ],
         ),
       ),
