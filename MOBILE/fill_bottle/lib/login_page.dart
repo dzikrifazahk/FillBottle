@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         } else {
-          _updateKeranjang(response[0]['id']);
+          // _updateKeranjang(response[0]['id']);
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/keranjangusers', (route) => false);
         }
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         } else {
-          _updateKeranjang(response[0]['id']);
+          // _updateKeranjang(response[0]['id']);
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/landingusers', (route) => false);
         }
