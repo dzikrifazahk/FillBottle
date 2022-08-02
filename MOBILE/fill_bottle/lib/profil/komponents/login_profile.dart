@@ -116,6 +116,7 @@ class _LoginProfileState extends State<LoginProfile> {
             SizedBox(height: 10),
             ListView(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               children: [
                 Container(
                   child: Padding(

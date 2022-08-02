@@ -321,9 +321,10 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 1.19,
+            height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   childAspectRatio: 3 / 2,
