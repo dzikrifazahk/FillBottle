@@ -87,11 +87,11 @@ class _LoginProfileState extends State<LoginProfile> {
                   if (!s.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }
-
+                  print(s.data[0]['customer']['foto']);
                   return Center(
                     child: ImageWithIcon(
-                      image: s.data['customer']['foto'],
-                      kode: s.data['kode'],
+                      image: s.data[0]['customer']['foto'],
+                      kode: s.data[0]['kode'],
                       userid: widget.userid,
                     ),
                   );

@@ -44,6 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
         url,
         body: body,
       );
+
       if (response.statusCode == 200) {
         _scaffold.currentState.showSnackBar(SnackBar(
           behavior: SnackBarBehavior.floating,
@@ -73,12 +74,12 @@ class _RegisterPageState extends State<RegisterPage> {
           backgroundColor: Colors.white,
         ));
         setState(() {
-          namaDepan.text = "";
-          namaBelakang.text = "";
-          telepon.text = "";
-          email.text = "";
-          password.text = "";
-          passwordConfirm.text = "";
+          // namaDepan.text = "";
+          // namaBelakang.text = "";
+          // telepon.text = "";
+          // email.text = "";
+          // password.text = "";
+          // passwordConfirm.text = "";
         });
       }
     } catch (e) {}
