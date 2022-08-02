@@ -42,23 +42,24 @@ class _KeranjangPageState extends State<KeranjangPage> {
   }
 
   _klikCheckout(List<Keranjang> _keranjang) async {
-    loadingProses(context);
-    var params = '/CodeIgniter3/klikbayar';
-    var body = {'listkeranjang': json.encode(_keranjang)};
-    var url = Uri.http(sUrl, params);
-    try {
-      http.post(url, body: body).then((value) {
-        var res = value.body.toString();
-        if (res == "OK") {
-          Navigator.of(context).pop();
-          _kosongkanKeranjang();
-          _scaffold.currentState.showSnackBar(SnackBar(
-              content: Text("Pembelian Berhasil"),
-              duration: Duration(seconds: 3)));
-        }
-      });
-    } catch (e) {}
-    return params;
+    // loadingProses(context);
+    var params = '/api/saveTransaction';
+    var body = {'transaction_id': json.encode(_keranjang)};
+    print(body);
+    // var url = Uri.http(sUrl, params);
+    // try {
+    //   http.post(url, body: body).then((value) {
+    //     var res = value.body.toString();
+    //     if (res == "OK") {
+    //       Navigator.of(context).pop();
+    // _kosongkanKeranjang();
+    //       _scaffold.currentState.showSnackBar(SnackBar(
+    //           content: Text("Pembelian Berhasil"),
+    //           duration: Duration(seconds: 3)));
+    //     }
+    //   });
+    // } catch (e) {}
+    // return params;
   }
 
   Future<List<Keranjang>> getKeranjang() async {
