@@ -73,7 +73,6 @@ class _HomePageState extends State<HomePage> {
 
   Future getData() async {
     var params = "/api/showCustomer/" + userid.toString();
-    print(userid);
     var url = Uri.http(sUrl, params);
     final response = await http.get(url);
     return json.decode(response.body);
@@ -297,8 +296,19 @@ class _HomePageState extends State<HomePage> {
                           return const Center(
                               child: CircularProgressIndicator());
                         }
-                        return s.data[0] != ""
+                        return (s.data as List).isEmpty
                             ? InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/profileusers', (route) => false);
+                                },
+                                child: new Icon(
+                                  Icons.account_circle_rounded,
+                                  size: 50,
+                                  color: Color.fromARGB(255, 163, 165, 241),
+                                ),
+                              )
+                            : InkWell(
                                 onTap: () {
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                       '/profileusers', (route) => false);
@@ -314,34 +324,9 @@ class _HomePageState extends State<HomePage> {
                                     fit: BoxFit.fill,
                                   ),
                                 ),
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      '/profileusers', (route) => false);
-                                },
-                                child: new Icon(
-                                  Icons.account_circle_rounded,
-                                  size: 50,
-                                  color: Color.fromARGB(255, 163, 165, 241),
-                                ),
                               );
                       }),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.only(right: 20),
-                //   child: InkWell(
-                //     onTap: () {
-                //       Navigator.of(context).pushNamedAndRemoveUntil(
-                //           '/profileusers', (route) => false);
-                //     },
-                //     child: new Icon(
-                //       Icons.account_circle_rounded,
-                //       size: 50,
-                //       color: Color.fromARGB(255, 163, 165, 241),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
             SizedBox(height: 10),

@@ -21,13 +21,6 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
     return json.decode(response.body);
   }
 
-  getProduk(String id) async {
-    var params = "/api/product/" + id;
-    var url = Uri.http(sUrl, params);
-    var response = await http.get(url);
-    return json.decode(response.body);
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -158,137 +151,81 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                   ]),
                 ],
               ),
-              Column(
-                children: [
-                  Expanded(
-                      child: Container(
-                    height: 110,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey[300],
-                          width: 1,
-                        ),
-                      ),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(color: Colors.white, spreadRadius: 1),
-                      ],
-                    ),
-                    child: ListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.all(10),
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.network(
-                            'https://${sUrl}/storage/uploads/images/2022-08-02/1659411387/foto_2022-08-02.jpg',
-                            height: 110,
-                            width: 110,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "as",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "12",
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.red),
+              SizedBox(height: 20),
+              Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: FutureBuilder(
+                      future: getDetailTransaksi(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 110,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[300],
+                                      width: 1,
                                     ),
+                                  ),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.white, spreadRadius: 1),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 30,
-                                      width: 100,
-                                      margin: EdgeInsets.only(top: 10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(color: Colors.grey),
+                                child: ListTile(
+                                  dense: true,
+                                  contentPadding: EdgeInsets.all(10),
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image.network(
+                                        "https://${sUrl}/storage/${snapshot.data[index]['product']['foto']}",
+                                        height: 110,
+                                        width: 110,
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {},
-                                            child: Icon(
-                                              Icons.remove,
-                                              color: Colors.green,
-                                              size: 22,
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              snapshot.data[index]['product']
+                                                  ['nama'],
+                                              style: TextStyle(fontSize: 16),
                                             ),
-                                          ),
-                                          Text(
-                                            "Ok",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  snapshot.data[index]
+                                                          ['product']['harga']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.red),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {},
-                                            child: Icon(
-                                              Icons.add,
-                                              color: Colors.green,
-                                              size: 22,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 7, 10, 5),
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              height: 25,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
-                                                    color: Colors.red),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.red,
-                                                    spreadRadius: 1,
-                                                  )
-                                                ],
-                                              ),
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Colors.white,
-                                                size: 22,
-                                              ),
-                                            ),
-                                          ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                  onTap: () {},
                                 ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () {},
-                    ),
-                  )),
-                ],
-              ),
+                              );
+                            });
+                      }))
             ],
           ),
         ),
