@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:fill_bottle/transaksi/komponent/detail_transaksi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fill_bottle/konstant.dart';
@@ -48,7 +49,6 @@ class _StatusLoginState extends State<StatusLogin> {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
-
                 return Stack(
                   children: <Widget>[
                     Container(
@@ -59,11 +59,8 @@ class _StatusLoginState extends State<StatusLogin> {
                       child: ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ItemList(
-                              nota: snapshot.data[index]['kode'],
-                              tanggal: snapshot.data[index]['tanggal'],
-                              st: snapshot.data[index]['status'],
-                            );
+                            // print(snapshot.data[index]);
+                            return ItemList(transaksi: snapshot.data[index]);
                           }),
                     ),
                   ],

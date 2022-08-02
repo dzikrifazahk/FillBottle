@@ -269,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                               return Text(
                                 'Hello, ${snapshot.data ?? ""}',
                                 style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: Color.fromARGB(255, 69, 71, 157),
                                     fontWeight: FontWeight.bold),
                               );
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.only(right: 20),
                   child: FutureBuilder(
                       future: getData(),
                       builder: (context, s) {
@@ -297,19 +297,8 @@ class _HomePageState extends State<HomePage> {
                           return const Center(
                               child: CircularProgressIndicator());
                         }
-                        return s.data[0] == null
+                        return s.data[0] != ""
                             ? InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      '/profileusers', (route) => false);
-                                },
-                                child: new Icon(
-                                  Icons.account_circle_rounded,
-                                  size: 50,
-                                  color: Color.fromARGB(255, 163, 165, 241),
-                                ),
-                              )
-                            : InkWell(
                                 onTap: () {
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                       '/profileusers', (route) => false);
@@ -324,6 +313,17 @@ class _HomePageState extends State<HomePage> {
                                     width: 50,
                                     fit: BoxFit.fill,
                                   ),
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/profileusers', (route) => false);
+                                },
+                                child: new Icon(
+                                  Icons.account_circle_rounded,
+                                  size: 50,
+                                  color: Color.fromARGB(255, 163, 165, 241),
                                 ),
                               );
                       }),

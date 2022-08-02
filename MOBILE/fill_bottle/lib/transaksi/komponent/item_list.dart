@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, prefer_const_literals_to_create_immutables
 
+import 'package:fill_bottle/transaksi/komponent/detail_transaksi.dart';
 import 'package:flutter/material.dart';
 
 class ItemList extends StatefulWidget {
-  final String nota, tanggal, harga, userid, st;
-  const ItemList(
-      {Key key, this.nota, this.tanggal, this.harga, this.userid, this.st})
-      : super(key: key);
+  final dynamic transaksi;
+  const ItemList({Key key, this.transaksi}) : super(key: key);
 
   @override
   _ItemListState createState() => _ItemListState();
@@ -16,7 +15,13 @@ class _ItemListState extends State<ItemList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DetailTransaksi(transaksi: widget.transaksi)));
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -44,11 +49,11 @@ class _ItemListState extends State<ItemList> {
                   height: 25,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: widget.st == "0"
+                    color: widget.transaksi['status'] == "0"
                         ? Colors.blue
-                        : widget.st == "1"
+                        : widget.transaksi['status'] == "1"
                             ? Colors.teal
-                            : widget.st == "2"
+                            : widget.transaksi['status'] == "2"
                                 ? Colors.green
                                 : Colors.red,
                     borderRadius: BorderRadius.only(
@@ -57,11 +62,11 @@ class _ItemListState extends State<ItemList> {
                   ),
                   child: Center(
                     child: Text(
-                      widget.st == "0"
+                      widget.transaksi['status'] == "0"
                           ? "proses"
-                          : widget.st == "1"
+                          : widget.transaksi['status'] == "1"
                               ? "di antar"
-                              : widget.st == "2"
+                              : widget.transaksi['status'] == "2"
                                   ? "selesai"
                                   : "cancel",
                       style: TextStyle(color: Colors.white),
@@ -90,8 +95,8 @@ class _ItemListState extends State<ItemList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text("Nota : " + widget.nota),
-                            Text("Tanggal : " + widget.tanggal),
+                            Text("Nota : " + widget.transaksi['kode']),
+                            Text("Tanggal : " + widget.transaksi['tanggal']),
                           ],
                         ),
                       ),
@@ -105,51 +110,6 @@ class _ItemListState extends State<ItemList> {
             ),
           ],
         ),
-        /* Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Icon(Icons.shopping_bag),
-            ),
-            Expanded(
-              flex: 8,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      color: Colors.green,
-                      child: Text("status"),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(kategori[widget.i].id.toString()),
-                            Text(kategori[widget.i].nama),
-                            Text(
-                              "Rp. 100.000",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      */
       ),
     );
   }
