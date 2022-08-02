@@ -261,7 +261,6 @@ class _HomePageState extends State<HomePage> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 10),
                     child: Column(
-                      
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FutureBuilder(
@@ -289,36 +288,46 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                FutureBuilder(
-                    future: getData(),
-                    builder: (context, s) {
-                      if (!s.hasData) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      return s.data[0] == null
-                          ? InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                    '/profileusers', (route) => false);
-                              },
-                              child: new Icon(
-                                Icons.account_circle_rounded,
-                                size: 50,
-                                color: Color.fromARGB(255, 163, 165, 241),
-                              ),
-                            )
-                          : 
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image.network(
-                              'http://${sUrl}/storage' +
-                                  '/' +
-                                  s.data[0]['customer']['foto'],
-                              height: 50,
-                              width: 50,
-                            ),
-                          );
-                    }),
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: FutureBuilder(
+                      future: getData(),
+                      builder: (context, s) {
+                        if (!s.hasData) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        return s.data[0] == null
+                            ? InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/profileusers', (route) => false);
+                                },
+                                child: new Icon(
+                                  Icons.account_circle_rounded,
+                                  size: 50,
+                                  color: Color.fromARGB(255, 163, 165, 241),
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/profileusers', (route) => false);
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.network(
+                                    'http://${sUrl}/storage' +
+                                        '/' +
+                                        s.data[0]['customer']['foto'],
+                                    height: 50,
+                                    width: 50,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                      }),
+                ),
                 // Padding(
                 //   padding: EdgeInsets.only(right: 20),
                 //   child: InkWell(
