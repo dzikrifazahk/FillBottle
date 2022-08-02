@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fill_bottle/temukan_page.dart';
@@ -106,40 +107,61 @@ class _BuildSliderState extends State<BuildSlider> {
                 scrollDirection: Axis.horizontal,
                 itemCount: cabangList.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              'http://${sUrl}/storage' +
-                                  "/" +
-                                  cabangList[index].foto,
-                            ))),
-                    margin: EdgeInsets.only(right: 8),
-                    padding: EdgeInsets.all(8),
-                    width: 124,
-                    height: 180,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          cabangList[index].nama,
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 163, 165, 241),
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          cabangList[index].kota,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 163, 165, 241),
-                            fontSize: 10,
+                  return Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  'http://${sUrl}/storage' +
+                                      "/" +
+                                      cabangList[index].foto,
+                                ))),
+                        margin: EdgeInsets.only(right: 8),
+                        padding: EdgeInsets.all(8),
+                        width: 124,
+                        height: 180,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                          width: 124,
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  cabangList[index].nama,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  cabangList[index].kota,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ],
-                    ),
+                      )
+                    ],
                   );
                 }),
           ),
