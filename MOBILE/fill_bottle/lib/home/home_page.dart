@@ -19,10 +19,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fill_bottle/model/produk.dart';
 import 'package:fill_bottle/temukan_page.dart';
 import 'package:fill_bottle/scanner_page.dart';
+import 'package:fill_bottle/profil/komponents/image_with_icon.dart';
 
 class HomePage extends StatefulWidget {
   final String nama;
-  const HomePage({Key key, this.nama}) : super(key: key);
+  final int userid;
+  const HomePage({Key key, this.nama, this.userid}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -67,6 +69,14 @@ class _HomePageState extends State<HomePage> {
     }
     // print(usersList);
     return usersList;
+  }
+
+  Future getData() async {
+    var params = "/api/showCustomer/" + userid.toString();
+    print(userid);
+    var url = Uri.http(sUrl, params);
+    final response = await http.get(url);
+    return json.decode(response.body);
   }
 
   Icon icon = Icon(
@@ -116,6 +126,7 @@ class _HomePageState extends State<HomePage> {
     fetchProduk();
     _isSearching = false;
     cekLogin();
+    getData();
   }
 
   Future<List<Kategori>> fetchKategori() async {
@@ -247,47 +258,81 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FutureBuilder(
-                          future: getName(),
-                          builder: (context, AsyncSnapshot snapshot) {
-                            return Text(
-                              'Hello, ${snapshot.data ?? ""}',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color.fromARGB(255, 69, 71, 157),
-                                  fontWeight: FontWeight.bold),
-                            );
-                          }),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text(
-                          "Let's Fill",
-                          style: TextStyle(
-                              fontSize: 24,
-                              color: Color.fromARGB(255, 69, 71, 157),
-                              fontWeight: FontWeight.bold),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Column(
+                      
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FutureBuilder(
+                            future: getName(),
+                            builder: (context, AsyncSnapshot snapshot) {
+                              return Text(
+                                'Hello, ${snapshot.data ?? ""}',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 69, 71, 157),
+                                    fontWeight: FontWeight.bold),
+                              );
+                            }),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            "Let's Fill",
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: Color.fromARGB(255, 69, 71, 157),
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/profileusers', (route) => false);
-                    },
-                    child: new Icon(
-                      Icons.account_circle_rounded,
-                      size: 50,
-                      color: Color.fromARGB(255, 163, 165, 241),
+                      ],
                     ),
                   ),
                 ),
+                FutureBuilder(
+                    future: getData(),
+                    builder: (context, s) {
+                      if (!s.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return s.data[0] == null
+                          ? InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/profileusers', (route) => false);
+                              },
+                              child: new Icon(
+                                Icons.account_circle_rounded,
+                                size: 50,
+                                color: Color.fromARGB(255, 163, 165, 241),
+                              ),
+                            )
+                          : 
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.network(
+                              'http://${sUrl}/storage' +
+                                  '/' +
+                                  s.data[0]['customer']['foto'],
+                              height: 50,
+                              width: 50,
+                            ),
+                          );
+                    }),
+                // Padding(
+                //   padding: EdgeInsets.only(right: 20),
+                //   child: InkWell(
+                //     onTap: () {
+                //       Navigator.of(context).pushNamedAndRemoveUntil(
+                //           '/profileusers', (route) => false);
+                //     },
+                //     child: new Icon(
+                //       Icons.account_circle_rounded,
+                //       size: 50,
+                //       color: Color.fromARGB(255, 163, 165, 241),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             SizedBox(height: 10),
