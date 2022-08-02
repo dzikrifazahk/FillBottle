@@ -37,7 +37,7 @@ class Body extends StatelessWidget {
               children: [
                 Text(
                   // 'RP ' + harga,
-                  FormatCurrency.convertToIdr(int.parse(harga), 2),
+                  FormatCurrency.convertToIdr(int.parse(harga), 0),
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 30.0,
