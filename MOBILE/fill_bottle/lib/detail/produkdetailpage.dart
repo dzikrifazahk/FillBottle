@@ -145,7 +145,7 @@ class _ProdukDetailPageState extends State<ProdukDetailPage> {
               nama: widget.nama,
               harga: widget.harga,
               foto: widget.foto,
-              jumlah: 1,
+              jumlah: 100,
               userid: widget.userid,
               deskripsi: widget.deskripsi,
               // satuan: "Liter"

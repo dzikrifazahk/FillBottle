@@ -20,9 +20,18 @@ class _KeranjangPageState extends State<KeranjangPage> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
   DbHelper dbHelper = DbHelper();
   List<Keranjang> keranjanglist = [];
+  List<int> listjumlah = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
   int _subtotal = 0;
   bool login = false;
   int userid = 0;
+  int jumlah = 100;
+  int njumlah;
+
+  void pilihJumlah(int value) {
+    setState(() {
+      jumlah = value;
+    });
+  }
 
   @override
   void initState() {
@@ -103,6 +112,13 @@ class _KeranjangPageState extends State<KeranjangPage> {
     Database db = await dbHelper.database;
     var batch = db.batch();
     db.execute('update keranjang set jumlah=jumlah+1 where id=?', [id]);
+    await batch.commit();
+  }
+
+  _updateJmlhKeranjang(int id, int jumlah) async {
+    Database db = await dbHelper.database;
+    var batch = db.batch();
+    db.execute('update keranjang set jumlah=$jumlah where id=?', [id]);
     await batch.commit();
   }
 
@@ -312,53 +328,77 @@ class _KeranjangPageState extends State<KeranjangPage> {
                                     Row(
                                       children: [
                                         Container(
-                                          height: 30,
-                                          width: 100,
-                                          margin: EdgeInsets.only(top: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            border:
-                                                Border.all(color: Colors.grey),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  if (s.data[i].jumlah > 1) {
-                                                    _kurangJmlhKeranjang(
-                                                        s.data[i].id);
-                                                  }
-                                                },
-                                                child: Icon(
-                                                  Icons.remove,
-                                                  color: Colors.green,
-                                                  size: 22,
-                                                ),
-                                              ),
-                                              Text(
-                                                s.data[i].jumlah.toString(),
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  _tambahJmlhKeranjang(
-                                                      s.data[i].id);
-                                                },
-                                                child: Icon(
-                                                  Icons.add,
-                                                  color: Colors.green,
-                                                  size: 22,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                            height: 30,
+                                            width: 100,
+                                            margin: EdgeInsets.only(top: 10),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  color: Colors.grey),
+                                            ),
+                                            child: DropdownButton(
+                                              isExpanded: true,
+                                              isDense: true,
+                                              value: jumlah,
+                                              onChanged: (value) {
+                                                pilihJumlah(value ??
+                                                    ""); //perubahaan saat kota di pilih
+                                                njumlah = listjumlah
+                                                    .indexOf(value ?? "");
+                                                _subtotal = 0;
+                                                _subtotal = _subtotal * jumlah;
+                                                _updateJmlhKeranjang(
+                                                    s.data[i].id,
+                                                    jumlah); //mengambil nilai index berdasarkan urutan list
+                                              },
+                                              items: listjumlah.map((value) {
+                                                return DropdownMenuItem(
+                                                  //tampilan isi data dropdown
+                                                  child: Text(
+                                                      value.toString() + ' ml'),
+                                                  value: value,
+                                                );
+                                              }).toList(),
+                                            )
+                                            // child: Row(
+                                            //   mainAxisAlignment:
+                                            //       MainAxisAlignment.spaceEvenly,
+                                            //   children: [
+                                            //     InkWell(
+                                            //       onTap: () {
+                                            //         if (s.data[i].jumlah > 1) {
+                                            //           _kurangJmlhKeranjang(
+                                            //               s.data[i].id);
+                                            //         }
+                                            //       },
+                                            //       child: Icon(
+                                            //         Icons.remove,
+                                            //         color: Colors.green,
+                                            //         size: 22,
+                                            //       ),
+                                            //     ),
+                                            //     Text(
+                                            //       s.data[i].jumlah.toString(),
+                                            //       style: TextStyle(
+                                            //         color: Colors.black,
+                                            //         fontSize: 14,
+                                            //       ),
+                                            //     ),
+                                            //     InkWell(
+                                            //       onTap: () {
+                                            //         _tambahJmlhKeranjang(
+                                            //             s.data[i].id);
+                                            //       },
+                                            //       child: Icon(
+                                            //         Icons.add,
+                                            //         color: Colors.green,
+                                            //         size: 22,
+                                            //       ),
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            ),
                                         Expanded(
                                           child: Container(
                                             margin: EdgeInsets.only(top: 10),

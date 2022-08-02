@@ -89,9 +89,9 @@ class _BuildSliderState extends State<BuildSlider> {
                           style: TextStyle(fontSize: 16),
                         ),
                         Icon(
-                          Icons.map_sharp,
+                          Icons.location_on,
                           size: 35,
-                          color: Colors.grey,
+                          color: Color.fromARGB(255, 163, 165, 241),
                         )
                       ],
                     ),

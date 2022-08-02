@@ -34,7 +34,7 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
               color: Colors.black,
             )),
         title: Text(
-          "Detail Transaksi ${widget.transaksi['kode']}",
+          "Detail Transaksid",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
@@ -44,11 +44,19 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
           margin: EdgeInsets.only(top: 10),
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                'Ringkasan',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               Table(
                 children: <TableRow>[
                   TableRow(children: <Widget>[
-                    Container(
+                    SizedBox(
                       height: 30,
                       child: Text(
                         "Kode",
@@ -152,80 +160,74 @@ class _DetailTransaksiState extends State<DetailTransaksi> {
                 ],
               ),
               SizedBox(height: 20),
-              Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: FutureBuilder(
-                      future: getDetailTransaksi(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-
-                        return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                height: 110,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.grey[300],
-                                      width: 1,
-                                    ),
-                                  ),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.white, spreadRadius: 1),
-                                  ],
-                                ),
-                                child: ListTile(
-                                  dense: true,
-                                  contentPadding: EdgeInsets.all(10),
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Image.network(
-                                        "https://${sUrl}/storage/${snapshot.data[index]['product']['foto']}",
-                                        height: 110,
-                                        width: 110,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              snapshot.data[index]['product']
-                                                  ['nama'],
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  snapshot.data[index]
-                                                          ['product']['harga']
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.red),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  onTap: () {},
-                                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Item List :",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: FutureBuilder(
+                          future: getDetailTransaksi(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: CircularProgressIndicator(),
                               );
-                            });
-                      }))
+                            }
+
+                            return ListView.builder(
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: EdgeInsets.all(10),
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Image.network(
+                                          "https://${sUrl}/storage/${snapshot.data[index]['product']['foto']}",
+                                          height: 110,
+                                          width: 110,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                snapshot.data[index]['product']
+                                                    ['nama'],
+                                                style: TextStyle(fontSize: 16),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    snapshot.data[index]
+                                                            ['product']['harga']
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.red),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () {},
+                                  );
+                                });
+                          })),
+                ],
+              )
             ],
           ),
         ),

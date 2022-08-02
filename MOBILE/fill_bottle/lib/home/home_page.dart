@@ -338,6 +338,19 @@ class _HomePageState extends State<HomePage> {
             BuildSlider(),
             SizedBox(height: 10),
             // AllProduct(context),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text("Semua Produk",
+                    style: TextStyle(
+                        fontSize: 18,
+                        // color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: StaggeredGrid.count(
@@ -346,36 +359,99 @@ class _HomePageState extends State<HomePage> {
                   crossAxisSpacing: 20,
                   children: List.generate(
                     produkList.length,
-                    (index) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(1, 2),
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 10)
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AspectRatio(
-                            aspectRatio: 1,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                'https://$sUrl/storage/${produkList[index].foto}',
-                                width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.cover,
+                    (index) => InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProdukDetailPage(
+                                    id: produkList[index].id,
+                                    nama: produkList[index].nama,
+                                    harga: int.parse(produkList[index].harga),
+                                    foto: produkList[index].foto,
+                                    deskripsi: produkList[index].deskripsi,
+                                    userid: userid,
+                                  )),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(1, 2),
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10)
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Stack(
+                                  children: [
+                                    Image.network(
+                                      'https://$sUrl/storage/${produkList[index].foto}',
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10),
+                                          ),
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                        width: double.infinity,
+                                        height: 60,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${produkList[index].nama}",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                "Rp. ${produkList[index].harga}",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text("${produkList[index].nama}"),
-                          )
-                        ],
+                            // Padding(
+                            //   padding: EdgeInsets.all(10),
+                            //   child: Text("${produkList[index].nama}"),
+                            // )
+                          ],
+                        ),
                       ),
                     ),
                   )),
